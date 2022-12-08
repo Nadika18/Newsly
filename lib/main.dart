@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "home.dart";
 
 void main() {
   runApp(const MyApp());
@@ -15,38 +16,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:Scaffold(
-        appBar:AppBar(title:const Text("Newsly")) ,
-        body:Column(children: const <Widget>[
-          Spacer(),
-          ElevatedCard(),
-          Spacer(),
-
-        ],)
-        )
+      debugShowCheckedModeBanner: false,
+       theme:ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+      home:const DefaultTabController(
+        length:3,
+        child:Home()
+      ),
+     
     );
   }
 }
 
-class ElevatedCard extends StatefulWidget {
-  const ElevatedCard({super.key});
-
-  @override
-  State<ElevatedCard> createState() => _ElevatedCardState();
-}
-
-class _ElevatedCardState extends State<ElevatedCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: const Center(child: Card(
-        child: SizedBox(
-          width:300,
-          height:100,
-          child:Center(child:Text("hello"))
-        )
-      )
-      )
-    );
-  }
-}
