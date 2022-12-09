@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:newsportal/article.dart';
 import 'models/1.dart';
 import 'dart:async' show Future;
 
@@ -108,7 +109,17 @@ class _ElevatedCardState extends State<ElevatedCard> {
     //   content: const Text(
     //       "Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card"),
     // );
-    return Card(
+    return Container(
+      margin: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 3.0,
+            )
+          ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -121,17 +132,25 @@ class _ElevatedCardState extends State<ElevatedCard> {
               child: Column(children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Image(image: AssetImage("assets/image1.png"))),
-                SizedBox(height: 20),
-                Text(
+                    child: const Image(image: AssetImage("assets/image1.png"))),
+                const SizedBox(height: 20),
+                const Text(
                     "Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card")
               ])),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                child: const Text('SAVE'),
-                onPressed: () {/* ... */},
+                child: const Text('READ'),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const Article();
+                      },
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 8),
               TextButton(
