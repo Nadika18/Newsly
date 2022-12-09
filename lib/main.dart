@@ -17,15 +17,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-       theme:ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-      home:const DefaultTabController(
-        length:3,
-        child:Home()
+      theme: ThemeData(
+        primarySwatch: Colors.lightBlue,
       ),
-     
+      home: const DefaultTabController(length: 4, child: Home()),
     );
   }
 }
-
