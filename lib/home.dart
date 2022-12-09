@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:newsportal/detailedView.dart';
 import 'models/1.dart';
 import 'dart:async' show Future;
 
@@ -73,24 +74,13 @@ class _ElevatedCardState extends State<ElevatedCard> {
     // return Container(
     //   child:Column(children:[
     //   Text('${news.title}'),
-    //   return GFCard(
-    //   boxFit: BoxFit.cover,
-    //   titlePosition: GFPosition.start,
-    //   image: Image.asset(
-    //     "assets/image1.png",
-    //     height: MediaQuery.of(context).size.height * 0.2,
-    //     width: MediaQuery.of(context).size.width,
-    //     fit: BoxFit.cover,
-    //   ),
-    //   showImage: true,
-    //   title: const GFListTile(
-    //     titleText: "text",
-    //     subTitleText: 'Author | Published date',
-    //   ),
-    //   content: const Text(
-    //       "Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card"),
-    // );
-    return Card(
+    return GestureDetector(
+      onTap:(){
+        Navigator.push(
+          context,
+        MaterialPageRoute(builder:(context)=> const NewsDetailedView()));
+      },
+      child:Card(
       
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -115,24 +105,44 @@ class _ElevatedCardState extends State<ElevatedCard> {
             
             
          
-     
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: const Text('SAVE'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
-              TextButton(
-                child: const Text('LISTEN'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
-            ],
-          ),
+               
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: <Widget>[
+          //     TextButton(
+          //       child: const Text('SAVE'),
+          //       onPressed: () {/* ... */},
+          //     ),
+          //     const SizedBox(width: 8),
+          //     TextButton(
+          //       child: const Text('LISTEN'),
+          //       onPressed: () {/* ... */},
+          //     ),
+          //     const SizedBox(width: 8),
+          //   ],
+          // ),
         ],
       ),
+    ));
+  }
+}
+
+
+
+class NewsDetailedView extends StatefulWidget {
+  const NewsDetailedView({super.key});
+
+  @override
+  State<NewsDetailedView> createState() => _NewsDetailedViewState();
+}
+
+class _NewsDetailedViewState extends State<NewsDetailedView> {
+  @override
+  Widget build(BuildContext context) {
+   
+    return Scaffold(
+      appBar:AppBar(title: const Text("Newsly")) ,
+    body:ElevatedCard()
     );
   }
 }
