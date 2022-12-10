@@ -1,20 +1,14 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:newsportal/article.dart';
 import 'dart:convert';
+import 'news_detailed.dart';
 import 'dart:async' show Future;
 // import 'news.dart';
 import 'models/1.dart';
-
-final player = AudioPlayer();
-bool isPlaying = false;
-Duration duration = Duration.zero;
-Duration position = Duration.zero;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -71,6 +65,8 @@ class _HomeState extends State<Home> {
           NavigationDestination(
               icon: Icon(Icons.summarize_outlined), label: 'Summary'),
           NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
+          NavigationDestination(
+              icon: Icon(Icons.person_outline_outlined), label: 'Profile'),
         ],
         onDestinationSelected: (int index) {
           setState(() {
@@ -186,36 +182,5 @@ class _ElevatedCardState extends State<ElevatedCard> {
             return const Center(child: CircularProgressIndicator());
           }
         });
-  }
-}
-
-class NewsDetailedView extends StatefulWidget {
-  dynamic news = '';
-  NewsDetailedView({super.key, required News news}) {
-    this.news = news;
-  }
-
-  @override
-  State<NewsDetailedView> createState() => _NewsDetailedViewState();
-}
-
-class _NewsDetailedViewState extends State<NewsDetailedView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('${widget.news.title}')),
-        body: Container(
-            child: IconButton(
-                icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-                onPressed: () async {
-                  if (!isPlaying) {
-                    await player.play(UrlSource(widget.news.summaryTts));
-                  } else {
-                    await player.pause();
-                  }
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
-                })));
   }
 }
