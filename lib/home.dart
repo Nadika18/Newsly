@@ -65,13 +65,13 @@ class _HomeState extends State<Home> {
   }
 }
 
-Future<String> _loadData() async {
-  return await rootBundle.loadString('assets/1.json');
-}
-
 class NewsLoading {
   Future<List<News>> loadNews() async {
-    String jsonString = await _loadData();
+    var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    var response = await http.get(url);
+    // var jsonString = response.body;
+    var jsonString = await rootBundle.loadString('assets/1.json');
+
     final jsonResponse = json.decode(jsonString);
     List<News> newsList = [];
     for (var news in jsonResponse) {
@@ -140,10 +140,14 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                     ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        child: Image(
-                                            image: AssetImage(news.imagePath))),
+                                        child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: Image.network(news.imagePath,
+                                              fit: BoxFit.cover),
+                                        )),
                                     const SizedBox(height: 20),
-                                    Text(news.description)
+                                    Text(
+                                        '${news.description.substring(0, 300)}...')
                                   ])),
                             ],
                           ),
