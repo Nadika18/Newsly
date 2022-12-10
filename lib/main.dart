@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "home.dart";
+import "news.dart";
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.lightBlue,
       ),
       home: const DefaultTabController(length: 4, child: Home()),
+      // home: const NewsList(),
     );
   }
 }

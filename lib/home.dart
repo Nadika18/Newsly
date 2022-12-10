@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:newsportal/article.dart';
-import 'models/1.dart';
 import 'dart:async' show Future;
+// import 'news.dart';
+import 'models/1.dart';
+
+
+
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -60,6 +66,18 @@ class _HomeState extends State<Home> {
   }
 }
 
+Future<String> _loadData() async {
+  return await rootBundle.loadString('assets/1.json');
+}
+class NewsLoading{
+  Future<News> loadNews() async{
+    String jsonString=await _loadData();
+    final jsonResponse=json.decode(jsonString);
+    News news=News.fromJson(jsonResponse);
+    return news;
+  }
+}
+
 class ElevatedCard extends StatefulWidget {
   const ElevatedCard({super.key});
 
@@ -67,86 +85,80 @@ class ElevatedCard extends StatefulWidget {
   State<ElevatedCard> createState() => _ElevatedCardState();
 }
 
-// Future<String> _loadData() async {
-//   return await rootBundle.loadString('assets/1.json');
-// }
+
+
 
 class _ElevatedCardState extends State<ElevatedCard> {
-  // Future loadData() async {
-  //   String jsonString = await _loadData();
-  //   final jsonResponse = json.decode(jsonString);
-  //   News news = News.fromJson(jsonResponse);
-  //   print('${news.title}');
-  // }
-
-  // void initState() {
-  //   super.initState();
-  //   loadData();
-  // }
 
   @override
-
-  // final growableList= <NewsCategory>[]
-
   Widget build(BuildContext context) {
-    // return Container(
-    //   child:Column(children:[
-    //   Text('${news.title}'),
     return GestureDetector(
-      onTap:(){
-        Navigator.push(
-          context,
-        MaterialPageRoute(builder:(context)=> const NewsDetailedView()));
-      },
-      child:Card(
-      
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const ListTile(
-            title: Text('The Enchanted Nightingale'),
-            subtitle: Text('Author | Published Date'),
-          ),
-          Container(
-              padding: const EdgeInsets.all(12),
-              child: Column(children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: const Image(image: AssetImage("assets/image1.png"))),
-                const SizedBox(height: 20),
-                const Text(
-                    "Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card")
-              ])),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: const Text('READ'),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return const Article();
-                      },
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(width: 8),
-              TextButton(
-                child: const Text('LISTEN'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
-            ],
-          ),
-        ],
-      ),
-    ));
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const NewsDetailedView()));
+        },
+        child: FutureBuilder(
+            future: NewsLoading().loadNews(),
+            builder: (context, AsyncSnapshot<News> snapshot) {
+              if (snapshot.hasData) {
+               //initialize news
+                News? news = snapshot.data;
+                return Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                     ListTile(
+                        //return news.title
+                        title: Text(news!.title),
+                        subtitle: Text(news.author),
+                      ),
+                      Container(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image(
+                                    image: AssetImage(news.imagePath))),
+                            const SizedBox(height: 20),
+                            Text(
+                                news.description)
+                          ])),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text('READ'),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const NewsDetailedView()));
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            child: const Text('SAVE'),
+                            onPressed: () {
+                              // setState(() {
+                              //   _saved.add(pair);
+                              // });
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 }
-
-
 
 class NewsDetailedView extends StatefulWidget {
   const NewsDetailedView({super.key});
@@ -158,10 +170,7 @@ class NewsDetailedView extends StatefulWidget {
 class _NewsDetailedViewState extends State<NewsDetailedView> {
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      appBar:AppBar(title: const Text("Newsly")) ,
-    body:ElevatedCard()
-    );
+        appBar: AppBar(title: const Text("Newsly")), body: ElevatedCard());
   }
 }
