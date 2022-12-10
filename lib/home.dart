@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
               )),
         )),
         bottom: const TabBar(
+            padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BubbleTabIndicator(
               indicatorHeight: 25.0,
