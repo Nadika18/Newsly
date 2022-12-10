@@ -10,6 +10,11 @@ import 'dart:async' show Future;
 // import 'news.dart';
 import 'models/1.dart';
 
+final player = AudioPlayer();
+bool isPlaying = false;
+Duration duration = Duration.zero;
+Duration position = Duration.zero;
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -183,20 +188,22 @@ class NewsDetailedView extends StatefulWidget {
 }
 
 class _NewsDetailedViewState extends State<NewsDetailedView> {
-  final player = AudioPlayer();
-  bool isPlaying = false;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('${widget.news.title}')),
         body: Container(
             child: IconButton(
-                icon: Icon(Icons.speaker),
-                onPressed: () {
-                  player.play(widget.news.summary_tts);
+                icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                onPressed: () async {
+                  if (!isPlaying) {
+                    await player.play(UrlSource(widget.news.summaryTts));
+                  } else {
+                    await player.pause();
+                  }
+                  setState(() {
+                    isPlaying = !isPlaying;
+                  });
                 })));
   }
 }
