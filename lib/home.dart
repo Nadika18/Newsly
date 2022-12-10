@@ -4,10 +4,9 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'dart:convert';
+// import 'dart:convert';
 import 'news_detailed.dart';
 import 'dart:async' show Future;
-// import 'news.dart';
 import 'models/1.dart';
 
 class Home extends StatefulWidget {
@@ -35,6 +34,8 @@ class _HomeState extends State<Home> {
               )),
         )),
         bottom: const TabBar(
+            isScrollable: true,
+            padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BubbleTabIndicator(
               indicatorHeight: 25.0,
@@ -46,18 +47,30 @@ class _HomeState extends State<Home> {
               // padding: EdgeInsets.all(10)
             ),
             tabs: [
-              Tab(text: "For You"),
+              Tab(text: "All News"),
               Tab(text: "Popular"),
-              Tab(text: "Saved"),
-              Tab(text: "Tech")
+              Tab(text: "Politics"),
+              Tab(text: "Tech"),
+              Tab(text: "Sports"),
+              Tab(text: "Entertainment"),
+              Tab(text: "World"),
+              Tab(text: "Business"),
+              Tab(text: "Health"),
+              Tab(text: "Literature"),
             ]),
       ),
       body: TabBarView(
         children: [
           ElevatedCard(category: 'all'),
           ElevatedCard(category: 'popular'),
-          ElevatedCard(category: 'saved'),
+          ElevatedCard(category: 'politics'),
           ElevatedCard(category: 'tech'),
+          ElevatedCard(category: 'sports'),
+          ElevatedCard(category: 'entertainment'),
+          ElevatedCard(category: 'world'),
+          ElevatedCard(category: 'business'),
+          ElevatedCard(category: 'health'),
+          ElevatedCard(category: 'literature'),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -65,8 +78,6 @@ class _HomeState extends State<Home> {
           NavigationDestination(
               icon: Icon(Icons.summarize_outlined), label: 'Summary'),
           NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-          NavigationDestination(
-              icon: Icon(Icons.person_outline_outlined), label: 'Profile'),
         ],
         onDestinationSelected: (int index) {
           setState(() {
@@ -170,7 +181,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                           )),
                                       const SizedBox(height: 20),
                                       Text(
-                                          '${news.description.substring(0, 300)}...')
+                                          '${news.description.characters.take(300)}...')
                                     ])),
                               ],
                             ),

@@ -19,6 +19,17 @@ class NewsDetailedView extends StatefulWidget {
 }
 
 class _NewsDetailedViewState extends State<NewsDetailedView> {
+  final player = AudioPlayer();
+  bool isPlaying = false; // true when media is playing
+  bool isBusy = false; // true when we're awaiting media
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +45,28 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
         ),
         body: Container(
             child: IconButton(
-                icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                icon: isBusy
+                    ? Icon(Icons.arrow_downward)
+                    : isPlaying
+                        ? Icon(Icons.pause)
+                        : Icon(Icons.play_arrow),
                 onPressed: () async {
-                  if (!isPlaying) {
-                    await player.play(UrlSource(widget.news.summaryTts));
-                  } else {
-                    await player.pause();
+                  if (!isBusy) {
+                    if (!isPlaying) {
+                      setState(() {
+                        isBusy = true;
+                      });
+                      await player.play(UrlSource(widget.news.fullBodyTts));
+                      setState(() {
+                        isBusy = false;
+                      });
+                    } else {
+                      await player.pause();
+                    }
+                    setState(() {
+                      isPlaying = !isPlaying;
+                    });
                   }
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
                 })));
   }
 }
