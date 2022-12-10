@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:newsportal/article.dart';
+import 'dart:convert';
 import 'dart:async' show Future;
 // import 'news.dart';
 import 'models/1.dart';
@@ -41,14 +42,10 @@ class _HomeState extends State<Home> {
       ),
       body: TabBarView(
         children: [
-          ListView(
-            children: const <Widget>[
-              ElevatedCard(),
-            ],
-          ),
-          const Text("Popular"),
-          const Text("Saved"),
-          const Text("Tech")
+          ElevatedCard(category: 'all'),
+          ElevatedCard(category: 'popular'),
+          ElevatedCard(category: 'saved'),
+          ElevatedCard(category: 'tech'),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -78,14 +75,20 @@ class NewsLoading {
     final jsonResponse = json.decode(jsonString);
     List<News> newsList = [];
     for (var news in jsonResponse) {
-      newsList.add(News.fromJson(news));
+      News newsObj = News.fromJson(news);
+      List<String> categoriesList = newsObj.categories.split(" ");
+      newsObj.categoriesList = categoriesList;
+      newsList.add(newsObj);
     }
     return newsList;
   }
 }
 
 class ElevatedCard extends StatefulWidget {
-  const ElevatedCard({super.key});
+  String category = "all";
+  ElevatedCard({super.key, required String category}) {
+    this.category = category;
+  }
 
   @override
   State<ElevatedCard> createState() => _ElevatedCardState();
@@ -107,15 +110,20 @@ class _ElevatedCardState extends State<ElevatedCard> {
               if (snapshot.hasData) {
                 //initialize newslist
                 List<News>? newsList = snapshot.data;
+                List<News>? newsListFiltered = snapshot.data
+                    ?.where((itm) =>
+                        itm.categoriesList.contains(widget.category) ||
+                        widget.category == 'all')
+                    .toList();
 
                 return Expanded(
                     child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
-                        itemCount: newsList!.length,
+                        itemCount: newsListFiltered!.length,
                         itemBuilder: (context, index) {
-                          News news = newsList[index];
+                          News news = newsListFiltered[index];
                           return Card(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -184,6 +192,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Newsly")), body: ElevatedCard());
+        appBar: AppBar(title: const Text("Newsly")), body: Text('Insider'));
   }
 }
