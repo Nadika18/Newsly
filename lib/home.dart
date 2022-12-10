@@ -54,8 +54,35 @@ class _HomeState extends State<Home> {
               Tab(text: "Literature"),
             ]),
       ),
-      body: TabBarView(
+      body: ListView(
+        padding: const EdgeInsets.all(15.0),
         children: [
+          Column(
+            children: [
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  fillColor: Colors.grey.shade200,
+                  filled: true,
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  suffixIcon: RotatedBox(
+                    quarterTurns: 1,
+                    child: Icon(
+                      Icons.tune,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
+                ),
+              ),
+            ],
+          ),
           ElevatedCard(category: 'all'),
           ElevatedCard(category: 'popular'),
           ElevatedCard(category: 'politics'),
@@ -133,7 +160,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                       NewsDetailedView(news: news)));
                         },
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 15, 5, 15),
+                          margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
                           child: Card(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
