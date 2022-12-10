@@ -1,6 +1,18 @@
-{
+[{
     "title":"Ben",
     "description":"Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card",
     "imagePath": "assets/image1.png",
     "author": "Saurav Adhikari"
-}
+},
+{
+    "title":"Man died in Shivapuri",
+    "description":"Man died at shivapuri yesterday hello hello,haha haha haha Some quick example text to build on the card Some quick example text to build on the card",
+    "imagePath": "assets/image2.png",
+    "author": "Babushan"
+},
+{
+    "title":"Group went to Lakhuri Bhanjyang",
+    "description":"Group went to Lakhuri Bhanjyang quick example text to build on the card Some quick example text to build on the card Some quick example text to build on the card",
+    "imagePath": "assets/image3.png",
+    "author": "Yuniiiiiika"
+}]

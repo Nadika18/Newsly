@@ -8,10 +8,6 @@ import 'dart:async' show Future;
 // import 'news.dart';
 import 'models/1.dart';
 
-
-
-
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -38,9 +34,6 @@ class _HomeState extends State<Home> {
         children: [
           ListView(
             children: const <Widget>[
-              ElevatedCard(),
-              ElevatedCard(),
-              ElevatedCard(),
               ElevatedCard(),
             ],
           ),
@@ -69,12 +62,16 @@ class _HomeState extends State<Home> {
 Future<String> _loadData() async {
   return await rootBundle.loadString('assets/1.json');
 }
-class NewsLoading{
-  Future<News> loadNews() async{
-    String jsonString=await _loadData();
-    final jsonResponse=json.decode(jsonString);
-    News news=News.fromJson(jsonResponse);
-    return news;
+
+class NewsLoading {
+  Future<List<News>> loadNews() async {
+    String jsonString = await _loadData();
+    final jsonResponse = json.decode(jsonString);
+    List<News> newsList = [];
+    for (var news in jsonResponse) {
+      newsList.add(News.fromJson(news));
+    }
+    return newsList;
   }
 }
 
@@ -85,11 +82,7 @@ class ElevatedCard extends StatefulWidget {
   State<ElevatedCard> createState() => _ElevatedCardState();
 }
 
-
-
-
 class _ElevatedCardState extends State<ElevatedCard> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -101,58 +94,66 @@ class _ElevatedCardState extends State<ElevatedCard> {
         },
         child: FutureBuilder(
             future: NewsLoading().loadNews(),
-            builder: (context, AsyncSnapshot<News> snapshot) {
+            builder: (context, snapshot) {
               if (snapshot.hasData) {
-               //initialize news
-                News? news = snapshot.data;
-                return Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                     ListTile(
-                        //return news.title
-                        title: Text(news!.title),
-                        subtitle: Text(news.author),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image(
-                                    image: AssetImage(news.imagePath))),
-                            const SizedBox(height: 20),
-                            Text(
-                                news.description)
-                          ])),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          TextButton(
-                            child: const Text('READ'),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const NewsDetailedView()));
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          TextButton(
-                            child: const Text('SAVE'),
-                            onPressed: () {
-                              // setState(() {
-                              //   _saved.add(pair);
-                              // });
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+                //initialize newslist
+                List<News>? newsList = snapshot.data;
+
+                return Expanded(child:ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                    itemCount: newsList!.length,
+                    itemBuilder: (context, index) {
+                      News news = newsList[index];
+                      return Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              //return news.title
+                              title: Text(news.title),
+                              subtitle: Text(news.author),
+                            ),
+                            Container(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image(
+                                          image: AssetImage(news.imagePath))),
+                                  const SizedBox(height: 20),
+                                  Text(news.description)
+                                ])),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                TextButton(
+                                  child: const Text('READ'),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NewsDetailedView()));
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                TextButton(
+                                  child: const Text('SAVE'),
+                                  onPressed: () {
+                                    // setState(() {
+                                    //   _saved.add(pair);
+                                    // });
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    }));
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
