@@ -19,20 +19,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentPage = 1;
 
+  List<Widget> _widgetOptions = <Widget>[
+    Text('Summary'),
+    Text('Home'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-          child: Text('Newsly',
-              style: TextStyle(
-                fontFamily: 'Kalam',
-                fontSize: 35,
-                color: Colors.white,
-              )),
-        )),
         bottom: const TabBar(
             isScrollable: true,
             padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
@@ -72,19 +67,6 @@ class _HomeState extends State<Home> {
           ElevatedCard(category: 'health'),
           ElevatedCard(category: 'literature'),
         ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(
-              icon: Icon(Icons.summarize_outlined), label: 'Summary'),
-          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-        ],
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPage = index;
-          });
-        },
-        selectedIndex: currentPage,
       ),
     );
   }
