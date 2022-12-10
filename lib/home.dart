@@ -97,92 +97,71 @@ class ElevatedCard extends StatefulWidget {
 class _ElevatedCardState extends State<ElevatedCard> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const NewsDetailedView()));
-        },
-        child: FutureBuilder(
-            future: NewsLoading().loadNews(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                //initialize newslist
-                List<News>? newsList = snapshot.data;
-                List<News>? newsListFiltered = snapshot.data
-                    ?.where((itm) =>
-                        itm.categoriesList.contains(widget.category) ||
-                        widget.category == 'all')
-                    .toList();
+    return FutureBuilder(
+        future: NewsLoading().loadNews(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            //initialize newslist
+            List<News>? newsList = snapshot.data;
+            List<News>? newsListFiltered = snapshot.data
+                ?.where((itm) =>
+                    itm.categoriesList.contains(widget.category) ||
+                    widget.category == 'all')
+                .toList();
 
-                return Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemCount: newsListFiltered!.length,
-                        itemBuilder: (context, index) {
-                          News news = newsListFiltered[index];
-                          return Card(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  //return news.title
-                                  title: Text(news.title),
-                                  subtitle: Text(news.author),
-                                ),
-                                Container(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(children: [
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Image(
-                                              image:
-                                                  AssetImage(news.imagePath))),
-                                      const SizedBox(height: 20),
-                                      Text(news.description)
-                                    ])),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    TextButton(
-                                      child: const Text('READ'),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const NewsDetailedView()));
-                                      },
-                                    ),
-                                    const SizedBox(width: 8),
-                                    TextButton(
-                                      child: const Text('SAVE'),
-                                      onPressed: () {
-                                        // setState(() {
-                                        //   _saved.add(pair);
-                                        // });
-                                      },
-                                    ),
-                                    const SizedBox(width: 8),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        }));
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            }));
+            return Expanded(
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: newsListFiltered!.length,
+                    itemBuilder: (context, index) {
+                      News news = newsListFiltered[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      NewsDetailedView(news: news)));
+                        },
+                        child: Card(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                //return news.title
+                                title: Text(news.title),
+                                subtitle: Text(news.author),
+                              ),
+                              Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(children: [
+                                    ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Image(
+                                            image: AssetImage(news.imagePath))),
+                                    const SizedBox(height: 20),
+                                    Text(news.description)
+                                  ])),
+                            ],
+                          ),
+                        ),
+                      );
+                    }));
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }
 
 class NewsDetailedView extends StatefulWidget {
-  const NewsDetailedView({super.key});
+  dynamic news = '';
+  NewsDetailedView({super.key, required News news}) {
+    this.news = news;
+  }
 
   @override
   State<NewsDetailedView> createState() => _NewsDetailedViewState();
@@ -192,6 +171,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Newsly")), body: Text('Insider'));
+        appBar: AppBar(title: Text('${widget.news.title}')),
+        body: Text(widget.news.author));
   }
 }
