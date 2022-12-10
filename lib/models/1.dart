@@ -33,5 +33,6 @@ class News {
     imagePath = json['imagePath'];
     author = json['author'];
     categories = json['categories'];
+    summaryTts = json['summary_tts'];
   }
 }
