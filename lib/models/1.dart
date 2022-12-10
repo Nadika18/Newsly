@@ -35,4 +35,46 @@ class News {
     categories = json['categories'];
     summaryTts = json['summary_tts'];
   }
+
+  //toJSON
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['description'] = description;
+    data['author'] = author;
+    data['categories'] = categories;
+    data['created'] = created;
+    data['title'] = title;
+    data['language'] = language;
+    data['summary'] = summary;
+    data['full_body_tts'] = fullBodyTts;
+    data['summary_tts'] = summaryTts;
+    data['imagePath'] = imagePath;
+    return data;
+  }
 }
+
+
+
+//   //fetch json from https://newsly.asaurav.com.np/api/news/
+//   Future<String> _fetchJson() async {
+//     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+//     var response = await http.get(url);
+//     return response.body;
+//  }
+
+//save the json file got from http request to assets folder
+//   Future<String> _saveJson(String json) async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     final file = File('${directory.path}/1.json');
+//     await file.writeAsString(json);
+//     return file.path;
+//   }
+//
+//   Future<String> _loadJson() async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     final file = File('${directory.path}/1.json');
+//     return file.readAsString();
+//   }
+//
+
