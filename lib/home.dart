@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
               )),
         )),
         bottom: const TabBar(
+            isScrollable: true,
             padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BubbleTabIndicator(
@@ -53,18 +54,30 @@ class _HomeState extends State<Home> {
               // padding: EdgeInsets.all(10)
             ),
             tabs: [
-              Tab(text: "For You"),
+              Tab(text: "All News"),
               Tab(text: "Popular"),
-              Tab(text: "Saved"),
-              Tab(text: "Tech")
+              Tab(text: "Politics"),
+              Tab(text: "Tech"),
+              Tab(text: "Sports"),
+              Tab(text: "Entertainment"),
+              Tab(text: "World"),
+              Tab(text: "Business"),
+              Tab(text: "Health"),
+              Tab(text: "Literature"),
             ]),
       ),
       body: TabBarView(
         children: [
           ElevatedCard(category: 'all'),
           ElevatedCard(category: 'popular'),
-          ElevatedCard(category: 'saved'),
+          ElevatedCard(category: 'politics'),
           ElevatedCard(category: 'tech'),
+          ElevatedCard(category: 'sports'),
+          ElevatedCard(category: 'entertainment'),
+          ElevatedCard(category: 'world'),
+          ElevatedCard(category: 'business'),
+          ElevatedCard(category: 'health'),
+          ElevatedCard(category: 'literature'),
         ],
       ),
       bottomNavigationBar: NavigationBar(

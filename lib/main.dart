@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: const DefaultTabController(length: 4, child: Home()),
+      home: const DefaultTabController(length: 10, child: Home()),
       // home: const NewsList(),
     );
   }
