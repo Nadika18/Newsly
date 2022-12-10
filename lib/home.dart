@@ -227,7 +227,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
         body: Container(
             child: IconButton(
                 icon: isBusy
-                    ? Icon(Icons.pending)
+                    ? Icon(Icons.arrow_downward)
                     : isPlaying
                         ? Icon(Icons.pause)
                         : Icon(Icons.play_arrow),
