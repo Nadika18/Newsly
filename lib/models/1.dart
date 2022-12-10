@@ -34,6 +34,7 @@ class News {
     author = json['author'];
     categories = json['categories'];
     summaryTts = json['summary_tts'];
+    fullBodyTts = json['full_body_tts'];
   }
 
   //toJSON

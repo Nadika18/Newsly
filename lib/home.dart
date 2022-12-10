@@ -11,11 +11,6 @@ import 'dart:async' show Future;
 // import 'news.dart';
 import 'models/1.dart';
 
-final player = AudioPlayer();
-bool isPlaying = false;
-Duration duration = Duration.zero;
-Duration position = Duration.zero;
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -41,6 +36,8 @@ class _HomeState extends State<Home> {
               )),
         )),
         bottom: const TabBar(
+            isScrollable: true,
+            padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BubbleTabIndicator(
               indicatorHeight: 25.0,
@@ -52,18 +49,30 @@ class _HomeState extends State<Home> {
               // padding: EdgeInsets.all(10)
             ),
             tabs: [
-              Tab(text: "For You"),
+              Tab(text: "All News"),
               Tab(text: "Popular"),
-              Tab(text: "Saved"),
-              Tab(text: "Tech")
+              Tab(text: "Politics"),
+              Tab(text: "Tech"),
+              Tab(text: "Sports"),
+              Tab(text: "Entertainment"),
+              Tab(text: "World"),
+              Tab(text: "Business"),
+              Tab(text: "Health"),
+              Tab(text: "Literature"),
             ]),
       ),
       body: TabBarView(
         children: [
           ElevatedCard(category: 'all'),
           ElevatedCard(category: 'popular'),
-          ElevatedCard(category: 'saved'),
+          ElevatedCard(category: 'politics'),
           ElevatedCard(category: 'tech'),
+          ElevatedCard(category: 'sports'),
+          ElevatedCard(category: 'entertainment'),
+          ElevatedCard(category: 'world'),
+          ElevatedCard(category: 'business'),
+          ElevatedCard(category: 'health'),
+          ElevatedCard(category: 'literature'),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -174,7 +183,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                           )),
                                       const SizedBox(height: 20),
                                       Text(
-                                          '${news.description.substring(0, 300)}...')
+                                          '${news.description.characters.take(300)}...')
                                     ])),
                               ],
                             ),
@@ -200,22 +209,45 @@ class NewsDetailedView extends StatefulWidget {
 }
 
 class _NewsDetailedViewState extends State<NewsDetailedView> {
+  final player = AudioPlayer();
+  bool isPlaying = false; // true when media is playing
+  bool isBusy = false; // true when we're awaiting media
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('${widget.news.title}')),
         body: Container(
             child: IconButton(
-                icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                icon: isBusy
+                    ? Icon(Icons.arrow_downward)
+                    : isPlaying
+                        ? Icon(Icons.pause)
+                        : Icon(Icons.play_arrow),
                 onPressed: () async {
-                  if (!isPlaying) {
-                    await player.play(UrlSource(widget.news.summaryTts));
-                  } else {
-                    await player.pause();
+                  if (!isBusy) {
+                    if (!isPlaying) {
+                      setState(() {
+                        isBusy = true;
+                      });
+                      await player.play(UrlSource(widget.news.fullBodyTts));
+                      setState(() {
+                        isBusy = false;
+                      });
+                    } else {
+                      await player.pause();
+                    }
+                    setState(() {
+                      isPlaying = !isPlaying;
+                    });
                   }
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
                 })));
   }
 }
