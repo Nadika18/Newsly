@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import "home.dart";
-import "news.dart";
+// import "news.dart";
 
 void main() {
   runApp(const MyApp());

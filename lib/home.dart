@@ -22,7 +22,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Newsly"),
+        title: const Center(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+          child: Text('Newsly',
+              style: TextStyle(
+                fontFamily: 'Kalam',
+                fontSize: 35,
+                color: Colors.white,
+              )),
+        )),
         bottom: const TabBar(tabs: [
           Tab(text: "For You"),
           Tab(text: "Popular"),
@@ -99,61 +108,64 @@ class _ElevatedCardState extends State<ElevatedCard> {
                 //initialize newslist
                 List<News>? newsList = snapshot.data;
 
-                return Expanded(child:ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                    itemCount: newsList!.length,
-                    itemBuilder: (context, index) {
-                      News news = newsList[index];
-                      return Card(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListTile(
-                              //return news.title
-                              title: Text(news.title),
-                              subtitle: Text(news.author),
-                            ),
-                            Container(
-                                padding: const EdgeInsets.all(12),
-                                child: Column(children: [
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Image(
-                                          image: AssetImage(news.imagePath))),
-                                  const SizedBox(height: 20),
-                                  Text(news.description)
-                                ])),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                return Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        itemCount: newsList!.length,
+                        itemBuilder: (context, index) {
+                          News news = newsList[index];
+                          return Card(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                TextButton(
-                                  child: const Text('READ'),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NewsDetailedView()));
-                                  },
+                                ListTile(
+                                  //return news.title
+                                  title: Text(news.title),
+                                  subtitle: Text(news.author),
                                 ),
-                                const SizedBox(width: 8),
-                                TextButton(
-                                  child: const Text('SAVE'),
-                                  onPressed: () {
-                                    // setState(() {
-                                    //   _saved.add(pair);
-                                    // });
-                                  },
+                                Container(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(children: [
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image(
+                                              image:
+                                                  AssetImage(news.imagePath))),
+                                      const SizedBox(height: 20),
+                                      Text(news.description)
+                                    ])),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    TextButton(
+                                      child: const Text('READ'),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NewsDetailedView()));
+                                      },
+                                    ),
+                                    const SizedBox(width: 8),
+                                    TextButton(
+                                      child: const Text('SAVE'),
+                                      onPressed: () {
+                                        // setState(() {
+                                        //   _saved.add(pair);
+                                        // });
+                                      },
+                                    ),
+                                    const SizedBox(width: 8),
+                                  ],
                                 ),
-                                const SizedBox(width: 8),
                               ],
                             ),
-                          ],
-                        ),
-                      );
-                    }));
+                          );
+                        }));
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
