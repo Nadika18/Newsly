@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -39,12 +40,23 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               )),
         )),
-        bottom: const TabBar(tabs: [
-          Tab(text: "For You"),
-          Tab(text: "Popular"),
-          Tab(text: "Saved"),
-          Tab(text: "Tech")
-        ]),
+        bottom: const TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BubbleTabIndicator(
+              indicatorHeight: 25.0,
+              indicatorColor: Color.fromARGB(255, 255, 255, 255),
+              tabBarIndicatorSize: TabBarIndicatorSize.tab,
+              // Other flags
+              // indicatorRadius: 1,
+              // insets: EdgeInsets.all(1),
+              // padding: EdgeInsets.all(10)
+            ),
+            tabs: [
+              Tab(text: "For You"),
+              Tab(text: "Popular"),
+              Tab(text: "Saved"),
+              Tab(text: "Tech")
+            ]),
       ),
       body: TabBarView(
         children: [
