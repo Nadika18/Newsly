@@ -44,7 +44,7 @@ class _SummaryState extends State<Summary> {
                         enableInfiniteScroll: false,
                         reverse: false,
                         autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
+                        // autoPlayInterval: Duration(seconds: 5),
                         autoPlayAnimationDuration: Duration(milliseconds: 800),
                         autoPlayCurve: Curves.fastOutSlowIn,
                         enlargeCenterPage: true,
