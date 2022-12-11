@@ -103,8 +103,6 @@ class NewsLoading {
   }
 }
 
-
-
 class ElevatedCard extends StatefulWidget {
   String category = "all";
   ElevatedCard({super.key, required String category}) {
