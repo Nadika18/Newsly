@@ -57,10 +57,11 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
                                const SizedBox(height: 20),            
                                           
                 ListTile(
-                title: Text(widget.news.title,
+                title: Padding(padding:const EdgeInsets.only(bottom: 15.0),
+                child:Text(widget.news.title,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 
-                ),
+                )),
 
                 subtitle: Text(widget.news.author + ' | ' + widget.news.created),
                 trailing:IconButton(
