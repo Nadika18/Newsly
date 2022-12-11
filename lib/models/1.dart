@@ -36,6 +36,7 @@ class News {
     categories = json['categories'];
     summaryTts = json['summary_tts'];
     fullBodyTts = json['full_body_tts'];
+    created= json['created'];
   }
 
   //toJSON

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsportal/home.dart';
 import "nav.dart";
 // import "news.dart";
 
@@ -22,6 +23,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.lightBlue,
       ),
       home: const Nav(),
+      // home: ElevatedCard();
       // home: const NewsList(),
     );
   }
