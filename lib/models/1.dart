@@ -1,4 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/container.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'dart:convert';
+
 class News {
   late int id;
   late String description;
@@ -36,7 +43,7 @@ class News {
     categories = json['category_name'];
     summaryTts = json['summary_tts'];
     fullBodyTts = json['full_body_tts'];
-    created= json['created'];
+    created = json['created'];
   }
 
   //toJSON
@@ -57,31 +64,41 @@ class News {
   }
 }
 
-// class JsonDatafetch{
-
-//   //fetch json from https://newsly.asaurav.com.np/api/news/
-//   Future<String> _fetchJson() async {
-//     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
-//     var response = await http.get(url);
-//     var jsonString = response.body;
-//     //print
-//     print(jsonString);
-
-//  }
-// }
-
- 
-
-
-
-
 //save the json file got from http request to assets folder
-//   Future<String> _saveJson(String json) async {
-//     final directory = await getApplicationDocumentsDirectory();
-//     final file = File('${directory.path}/2.json');
-//     await file.writeAsString(json);
-//     return file.path;
-//   }
-//
+class SaveJson {
+  //fetch json from https://newsly.asaurav.com.np/api/news/
+  Future fetchJson() async {
+    var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    var response = await http.get(url);
+    var jsonString = response.body;
+    print(jsonString);
+    //save this json to assets file 2.json in assets folder
+    // final directory = await getApplicationDocumentsDirectory();
+    // print("Hello");
+    // print(directory.path);
+    final file = File('assets/2.json');
+    file.writeAsString(jsonString);
+  }
+}
 
+class SaveJsonfile extends StatelessWidget {
+  const SaveJsonfile({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: SaveJson().fetchJson(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            child: Text('saved'),
+          );
+        } else {
+          return Container(
+            child: Text('not saved'),
+          );
+        }
+      },
+    );
+  }
+}
