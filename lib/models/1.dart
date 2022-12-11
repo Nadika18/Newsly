@@ -73,11 +73,14 @@ class SaveJson {
     var jsonString = response.body;
     print(jsonString);
     //save this json to assets file 2.json in assets folder
-    // final directory = await getApplicationDocumentsDirectory();
-    // print("Hello");
-    // print(directory.path);
-    final file = File('assets/2.json');
+    final directory = await getApplicationDocumentsDirectory();
+    print("Hello");
+    print(directory.path);
+    final file = File('${directory.path}/2.json');
     file.writeAsString(jsonString);
+    final contents= await file.readAsString();
+    print(contents);
+    return contents;
   }
 }
 
