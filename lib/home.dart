@@ -88,10 +88,10 @@ class NewsLoading {
   Future<List<News>> loadNews() async {
     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
     var response = await http.get(url);
-    // var jsonString = response.body;
-    var jsonString = await rootBundle.loadString('assets/1.json');
+    var jsonString = response.body;
+    // var jsonString = await rootBundle.loadString('assets/1.json');
 
-    final jsonResponse = json.decode(jsonString);
+    final jsonResponse = json.decode(utf8.decode(response.bodyBytes));
     List<News> newsList = [];
     for (var news in jsonResponse) {
       News newsObj = News.fromJson(news);
