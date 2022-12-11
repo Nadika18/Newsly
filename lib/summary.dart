@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'home.dart';
 
 class Summary extends StatefulWidget {
   const Summary({super.key});
@@ -11,18 +13,86 @@ class _SummaryState extends State<Summary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-          child: Text('Newsly',
-              style: TextStyle(
-                fontFamily: 'Kalam',
-                fontSize: 35,
-                color: Colors.white,
-              )),
-        )),
-      ),
-    );
+        appBar: AppBar(
+          title: const Center(
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+            child: Text('Newsly',
+                style: TextStyle(
+                  fontFamily: 'Kalam',
+                  fontSize: 35,
+                  color: Colors.white,
+                )),
+          )),
+        ),
+        body: Center(
+          child: CarouselSlider(
+            options: CarouselOptions(
+              height: 400,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.8,
+              initialPage: 0,
+              enableInfiniteScroll: false,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              enlargeFactor: 0.3,
+              // onPageChanged: callbackFunction,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: [1, 2, 3, 4, 5].map((news) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                        child: Card(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                //return news.title
+                                title: Text(
+                                  '${news} Title',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                subtitle: Text('${news} author'),
+                              ),
+                              Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Column(children: [
+                                    ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: Image.network(
+                                              'https://images.unsplash.com/photo-1670692287984-54bb817dd9c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=763&q=80',
+                                              fit: BoxFit.cover),
+                                        )),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                        '${news}.description.characters.take(300)...')
+                                  ])),
+                            ],
+                          ),
+                        ),
+                      ));
+                },
+              );
+            }).toList(),
+          ),
+        ));
   }
 }

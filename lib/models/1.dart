@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+
 class News {
   late int id;
   late String description;
@@ -29,13 +30,13 @@ class News {
   });
 
   News.fromJson(Map<String, dynamic> json) {
+    fullBodyTts = json['summary_tts'];
     title = json['title'];
     description = json['body_text'];
-    imagePath = json['imagePath'];
-    author = json['author'];
-    categories = json['categories'];
+    imagePath = json['cover_image'];
+    author = json['author_name'];
+    categories = json['category_name'];
     summaryTts = json['summary_tts'];
-    fullBodyTts = json['full_body_tts'];
   }
 
   //toJSON

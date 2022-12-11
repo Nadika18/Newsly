@@ -86,8 +86,8 @@ class _HomeState extends State<Home> {
 
 class NewsLoading {
   Future<List<News>> loadNews() async {
-    var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
-    var response = await http.get(url);
+    // var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    // var response = await http.get(url);
     // var jsonString = response.body;
     var jsonString = await rootBundle.loadString('assets/1.json');
 
@@ -102,8 +102,6 @@ class NewsLoading {
     return newsList;
   }
 }
-
-
 
 class ElevatedCard extends StatefulWidget {
   String category = "all";
