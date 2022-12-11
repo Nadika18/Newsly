@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 class News {
   late int id;
   late String description;
@@ -55,27 +56,31 @@ class News {
   }
 }
 
-
+// class JsonDatafetch{
 
 //   //fetch json from https://newsly.asaurav.com.np/api/news/
 //   Future<String> _fetchJson() async {
 //     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
 //     var response = await http.get(url);
-//     return response.body;
+//     var jsonString = response.body;
+//     //print
+//     print(jsonString);
+
 //  }
+// }
+
+ 
+
+
+
 
 //save the json file got from http request to assets folder
 //   Future<String> _saveJson(String json) async {
 //     final directory = await getApplicationDocumentsDirectory();
-//     final file = File('${directory.path}/1.json');
+//     final file = File('${directory.path}/2.json');
 //     await file.writeAsString(json);
 //     return file.path;
 //   }
 //
-//   Future<String> _loadJson() async {
-//     final directory = await getApplicationDocumentsDirectory();
-//     final file = File('${directory.path}/1.json');
-//     return file.readAsString();
-//   }
-//
+
 
