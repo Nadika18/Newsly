@@ -69,7 +69,7 @@ class _SummaryState extends State<Summary> {
                                                 child: AspectRatio(
                                                   aspectRatio: 16 / 9,
                                                   child: Image.network(
-                                                      'https://images.unsplash.com/photo-1670692287984-54bb817dd9c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=763&q=80',
+                                                      '${news.imagePath}',
                                                       fit: BoxFit.cover),
                                                 )),
                                             const SizedBox(height: 20),
