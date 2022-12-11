@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+
 class News {
   late int id;
   late String description;
@@ -34,9 +35,10 @@ class News {
     imagePath = json['cover_image'];
     author = json['author_name'];
     categories = json['category_name'];
+    summary = json['summary'];
     summaryTts = json['summary_tts'];
     fullBodyTts = json['full_body_tts'];
-    created= json['created'];
+    created = json['created'];
   }
 
   //toJSON
