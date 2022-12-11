@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 class News {
   late int id;
   late String description;
@@ -36,4 +37,50 @@ class News {
     summaryTts = json['summary_tts'];
     fullBodyTts = json['full_body_tts'];
   }
+
+  //toJSON
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['description'] = description;
+    data['author'] = author;
+    data['categories'] = categories;
+    data['created'] = created;
+    data['title'] = title;
+    data['language'] = language;
+    data['summary'] = summary;
+    data['full_body_tts'] = fullBodyTts;
+    data['summary_tts'] = summaryTts;
+    data['imagePath'] = imagePath;
+    return data;
+  }
 }
+
+// class JsonDatafetch{
+
+//   //fetch json from https://newsly.asaurav.com.np/api/news/
+//   Future<String> _fetchJson() async {
+//     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+//     var response = await http.get(url);
+//     var jsonString = response.body;
+//     //print
+//     print(jsonString);
+
+//  }
+// }
+
+ 
+
+
+
+
+//save the json file got from http request to assets folder
+//   Future<String> _saveJson(String json) async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     final file = File('${directory.path}/2.json');
+//     await file.writeAsString(json);
+//     return file.path;
+//   }
+//
+
+
