@@ -13,9 +13,8 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    Summary(),
     DefaultTabController(length: 10, child: Home()),
-    Text('Profile')
+    Summary(),
   ];
 
   void _onItemTap(int index) {
@@ -33,16 +32,12 @@ class _NavState extends State<Nav> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.summarize_outlined),
-            label: 'Summary',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
+            icon: Icon(Icons.summarize_outlined),
+            label: 'Summary',
           ),
         ],
         currentIndex: _selectedIndex,
