@@ -21,6 +21,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
   final player = AudioPlayer();
   bool isPlaying = false; // true when media is playing
   bool isBusy = false; // true when we're awaiting media
+  bool isSaved = false; // true when news is saved
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
   @override
@@ -42,13 +43,14 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
             icon: const Icon(Icons.arrow_back_ios),
           ),
           // toolbarHeight: 90,
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
         body: SingleChildScrollView(
             child: Card(
                 child: Column(children: [
           const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(2.0),
           ),
           ListTile(
             title: Text(
@@ -65,16 +67,17 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
                 aspectRatio: 16 / 10,
                 child: Image.network(widget.news.imagePath, fit: BoxFit.cover),
               )),
-          //  const SizedBox(height: 20),
-
+          const SizedBox(height: 20),
+          // subtitle
           ListTile(
-              // title: Text(widget.news.title,
-              // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-
-              // ),
-
-              subtitle: Text(widget.news.author + ' | ' + widget.news.created),
-              trailing: IconButton(
+            subtitle: Text('Author: ' +
+                widget.news.author +
+                ' \nPublished at: ' +
+                widget.news.created),
+            trailing: Wrap(
+              spacing: 0,
+              children: <Widget>[
+                IconButton(
                   icon: isBusy
                       ? Icon(Icons.arrow_downward)
                       : isPlaying
@@ -97,27 +100,33 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
                         isPlaying = !isPlaying;
                       });
                     }
-                  })),
+                  },
+                ),
+                IconButton(
+                    icon: isSaved
+                        ? Icon(Icons.bookmark)
+                        : Icon(Icons.bookmark_outline),
+                    onPressed: () {
+                      if (!isSaved) {
+                        setState(() {
+                          isSaved = true;
+                        });
+                      } else {
+                        setState(() {
+                          isSaved = false;
+                        });
+                      }
+                    }),
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 30),
           Container(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Text(widget.news.description)),
-
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-            // TextButton(
-            //   child: const Text('LISTEN'),
-            //   onPressed: () {},
-            // ),
-            // const SizedBox(width: 8),
-            // TextButton(
-            //   child: const Text('SAVE'),
-            //   onPressed: () {
-            //     // setState(() {
-            //     //   _saved.add(pair);
-            //     // });
-            //   },
-            // ),
-          ])
         ]))));
   }
 }

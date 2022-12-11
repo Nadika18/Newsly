@@ -163,6 +163,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                   ),
                                   subtitle: Text(news.author),
                                 ),
+                                const SizedBox(height: 20),
                                 Container(
                                     padding:
                                         const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -177,7 +178,8 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                           )),
                                       const SizedBox(height: 20),
                                       Text(
-                                          '${news.description.characters.take(30)}...')
+                                          '${news.description.characters.take(200)}...'),
+                                          const SizedBox(height: 20),
                                     ])),
                               ],
                             ),
