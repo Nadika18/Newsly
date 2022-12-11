@@ -54,13 +54,13 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
                                 child: Image.network(widget.news.imagePath,
                                 fit: BoxFit.cover),
                                           )), 
-                              //  const SizedBox(height: 20),            
+                               const SizedBox(height: 20),            
                                           
                 ListTile(
-                // title: Text(widget.news.title,
-                // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                title: Text(widget.news.title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 
-                // ),
+                ),
 
                 subtitle: Text(widget.news.author + ' | ' + widget.news.created),
                 trailing:IconButton(
@@ -94,25 +94,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
               
               child: Text(widget.news.description)),
 
-              Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          TextButton(
-                            child: const Text('LISTEN'),
-                            onPressed: () {
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          TextButton(
-                            child: const Text('SAVE'),
-                            onPressed: () {
-                              // setState(() {
-                              //   _saved.add(pair);
-                              // });
-                            },
-                          ),
-             
-
-          ])]))));
+              ]))));
   }
 }
