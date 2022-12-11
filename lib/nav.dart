@@ -27,18 +27,6 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-          child: Text('Newsly',
-              style: TextStyle(
-                fontFamily: 'Kalam',
-                fontSize: 35,
-                color: Colors.white,
-              )),
-        )),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
