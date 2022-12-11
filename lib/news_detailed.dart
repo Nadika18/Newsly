@@ -33,7 +33,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${widget.news.title}'),
+          // title: Text('${widget.news.title}'),
           automaticallyImplyLeading: false,
           leading: IconButton(
             onPressed: () {
@@ -41,78 +41,83 @@ class _NewsDetailedViewState extends State<NewsDetailedView> {
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
+          // toolbarHeight: 90,
+          backgroundColor: Colors.grey[300],
         ),
-        body:SingleChildScrollView(child:Card(
-          child:Column(
-            children:[
+        body: SingleChildScrollView(
+            child: Card(
+                child: Column(children: [
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
+          ListTile(
+            title: Text(
+              widget.news.title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+          ),
+          ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Image.network(widget.news.imagePath, fit: BoxFit.cover),
+              )),
+          //  const SizedBox(height: 20),
 
-                      ClipRRect(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                child: AspectRatio(
-                                aspectRatio: 16 / 10,
-                                child: Image.network(widget.news.imagePath,
-                                fit: BoxFit.cover),
-                                          )), 
-                              //  const SizedBox(height: 20),            
-                                          
-                ListTile(
-                // title: Text(widget.news.title,
-                // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                
-                // ),
+          ListTile(
+              // title: Text(widget.news.title,
+              // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
 
-                subtitle: Text(widget.news.author + ' | ' + widget.news.created),
-                trailing:IconButton(
-                icon: isBusy
-                    ? Icon(Icons.arrow_downward)
-                    : isPlaying
-                        ? Icon(Icons.pause)
-                        : Icon(Icons.play_arrow),
-                onPressed: () async {
-                  if (!isBusy) {
-                    if (!isPlaying) {
+              // ),
+
+              subtitle: Text(widget.news.author + ' | ' + widget.news.created),
+              trailing: IconButton(
+                  icon: isBusy
+                      ? Icon(Icons.arrow_downward)
+                      : isPlaying
+                          ? Icon(Icons.pause)
+                          : Icon(Icons.play_arrow),
+                  onPressed: () async {
+                    if (!isBusy) {
+                      if (!isPlaying) {
+                        setState(() {
+                          isBusy = true;
+                        });
+                        await player.play(UrlSource(widget.news.fullBodyTts));
+                        setState(() {
+                          isBusy = false;
+                        });
+                      } else {
+                        await player.pause();
+                      }
                       setState(() {
-                        isBusy = true;
+                        isPlaying = !isPlaying;
                       });
-                      await player.play(UrlSource(widget.news.fullBodyTts));
-                      setState(() {
-                        isBusy = false;
-                      });
-                    } else {
-                      await player.pause();
                     }
-                    setState(() {
-                      isPlaying = !isPlaying;
-                    });
-                  }
-                })
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              
+                  })),
+          const SizedBox(height: 30),
+          Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Text(widget.news.description)),
 
-              Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          TextButton(
-                            child: const Text('LISTEN'),
-                            onPressed: () {
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          TextButton(
-                            child: const Text('SAVE'),
-                            onPressed: () {
-                              // setState(() {
-                              //   _saved.add(pair);
-                              // });
-                            },
-                          ),
-             
-
-          ])]))));
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+            // TextButton(
+            //   child: const Text('LISTEN'),
+            //   onPressed: () {},
+            // ),
+            // const SizedBox(width: 8),
+            // TextButton(
+            //   child: const Text('SAVE'),
+            //   onPressed: () {
+            //     // setState(() {
+            //     //   _saved.add(pair);
+            //     // });
+            //   },
+            // ),
+          ])
+        ]))));
   }
 }
