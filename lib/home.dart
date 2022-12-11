@@ -1,14 +1,12 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 // ignore: depend_on_referenced_packages
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:newsportal/article.dart';
-import 'dart:convert';
+// import 'dart:convert';
+import 'news_detailed.dart';
 import 'dart:async' show Future;
-// import 'news.dart';
 import 'models/1.dart';
 
 class Home extends StatefulWidget {
@@ -21,20 +19,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentPage = 1;
 
+  List<Widget> _widgetOptions = <Widget>[
+    Text('Summary'),
+    Text('Home'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-          child: Text('Newsly',
-              style: TextStyle(
-                fontFamily: 'Kalam',
-                fontSize: 35,
-                color: Colors.white,
-              )),
-        )),
         bottom: const TabBar(
             isScrollable: true,
             padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
@@ -61,8 +54,35 @@ class _HomeState extends State<Home> {
               Tab(text: "Literature"),
             ]),
       ),
-      body: TabBarView(
+      body: ListView(
+        padding: const EdgeInsets.all(15.0),
         children: [
+          Column(
+            children: [
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  fillColor: Colors.grey.shade200,
+                  filled: true,
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  suffixIcon: RotatedBox(
+                    quarterTurns: 1,
+                    child: Icon(
+                      Icons.tune,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide.none),
+                ),
+              ),
+            ],
+          ),
           ElevatedCard(category: 'all'),
           ElevatedCard(category: 'popular'),
           ElevatedCard(category: 'politics'),
@@ -74,19 +94,6 @@ class _HomeState extends State<Home> {
           ElevatedCard(category: 'health'),
           ElevatedCard(category: 'literature'),
         ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(
-              icon: Icon(Icons.summarize_outlined), label: 'Summary'),
-          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-        ],
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPage = index;
-          });
-        },
-        selectedIndex: currentPage,
       ),
     );
   }
@@ -155,7 +162,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                       NewsDetailedView(news: news)));
                         },
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 15, 5, 15),
+                          margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
                           child: Card(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -197,59 +204,5 @@ class _ElevatedCardState extends State<ElevatedCard> {
             return const Center(child: CircularProgressIndicator());
           }
         });
-  }
-}
-
-class NewsDetailedView extends StatefulWidget {
-  dynamic news = '';
-  NewsDetailedView({super.key, required News news}) {
-    this.news = news;
-  }
-
-  @override
-  State<NewsDetailedView> createState() => _NewsDetailedViewState();
-}
-
-class _NewsDetailedViewState extends State<NewsDetailedView> {
-  final player = AudioPlayer();
-  bool isPlaying = false; // true when media is playing
-  bool isBusy = false; // true when we're awaiting media
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('${widget.news.title}')),
-        body: Container(
-            child: IconButton(
-                icon: isBusy
-                    ? Icon(Icons.arrow_downward)
-                    : isPlaying
-                        ? Icon(Icons.pause)
-                        : Icon(Icons.play_arrow),
-                onPressed: () async {
-                  if (!isBusy) {
-                    if (!isPlaying) {
-                      setState(() {
-                        isBusy = true;
-                      });
-                      await player.play(UrlSource(widget.news.fullBodyTts));
-                      setState(() {
-                        isBusy = false;
-                      });
-                    } else {
-                      await player.pause();
-                    }
-                    setState(() {
-                      isPlaying = !isPlaying;
-                    });
-                  }
-                })));
   }
 }
