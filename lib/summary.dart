@@ -10,6 +10,19 @@ class Summary extends StatefulWidget {
 class _SummaryState extends State<Summary> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+          child: Text('Newsly',
+              style: TextStyle(
+                fontFamily: 'Kalam',
+                fontSize: 35,
+                color: Colors.white,
+              )),
+        )),
+      ),
+    );
   }
 }

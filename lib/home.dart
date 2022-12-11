@@ -28,39 +28,18 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Stack(
-          children: <Widget>[
-            Column(
-              // padding: const EdgeInsets.all(15.0),
-              children: [
-                const SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    fillColor: Colors.grey.shade200,
-                    filled: true,
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: const RotatedBox(
-                      quarterTurns: 1,
-                      child: Icon(
-                        Icons.tune,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide.none),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        toolbarHeight: 90,
-        backgroundColor: Colors.grey[300],
+        title: const Center(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+          child: Text('Newsly',
+              style: TextStyle(
+                fontFamily: 'Kalam',
+                fontSize: 35,
+                color: Colors.white,
+              )),
+        )),
+        // toolbarHeight: 90,
+        // backgroundColor: Colors.grey[300],
         bottom: const TabBar(
             isScrollable: true,
             padding: EdgeInsets.fromLTRB(7, 0, 7, 0),
