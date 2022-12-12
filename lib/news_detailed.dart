@@ -124,9 +124,9 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                             });
                           }
                         }),
-                    const Padding(
-                      padding: EdgeInsets.all(12.0),
-                    ),
+                    // const Padding(
+                    //   padding: EdgeInsets.all(12.0),
+                    // ),
                   ],
                 ),
               ),
