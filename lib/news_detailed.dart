@@ -150,16 +150,17 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           ),
                           controller: tabController,
                           isScrollable: true,
-                          labelPadding: EdgeInsets.symmetric(horizontal: 30),
+                          labelPadding:
+                              const EdgeInsets.symmetric(horizontal: 30),
                           // ignore: prefer_const_literals_to_create_immutables
                           tabs: [
-                            Tab(
+                            const Tab(
                               child: Text(
                                 "Summary",
                                 style: TextStyle(color: Colors.black),
                               ),
                             ),
-                            Tab(
+                            const Tab(
                               child: Text(
                                 "Full News",
                                 style: TextStyle(color: Colors.black),
@@ -176,24 +177,25 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                       controller: tabController,
                       children: [
                         ListView.builder(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: 1,
                           itemBuilder: (context, index) {
                             return Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: Text(widget.news.summary));
                           },
                         ),
                         ListView.builder(
-                          physics: const BouncingScrollPhysics(),
+                          // scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: 1,
                           itemBuilder: (context, index) {
                             return Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: Text(widget.news.description));
                           },
                         ),

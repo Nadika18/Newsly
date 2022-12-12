@@ -132,7 +132,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     itemCount: newsListFiltered!.length,
                     itemBuilder: (context, index) {
                       News news = newsListFiltered[index];
@@ -145,7 +145,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                       NewsDetailedView(news: news)));
                         },
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                          margin: const EdgeInsets.fromLTRB(0, 15, 0, 5),
                           child: Card(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -154,7 +154,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                   //return news.title
                                   title: Text(
                                     news.title,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
                                     ),
@@ -177,7 +177,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                       const SizedBox(height: 20),
                                       Text(
                                           '${news.description.characters.take(200)}...'),
-                                          const SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ])),
                               ],
                             ),
