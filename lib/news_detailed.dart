@@ -146,7 +146,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                         child: TabBar(
                           indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.lightBlue,
+                            color: Theme.of(context).primaryColor,
                           ),
                           controller: tabController,
                           isScrollable: true,

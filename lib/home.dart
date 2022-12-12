@@ -177,7 +177,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                       const SizedBox(height: 20),
                                       Text(
                                           '${news.description.characters.take(200)}...'),
-                                          const SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ])),
                               ],
                             ),
