@@ -167,14 +167,39 @@ class _ElevatedCardState extends State<ElevatedCard> {
 
             return Expanded(
                 child: RefreshIndicator(
-              onRefresh: () async {},
+              onRefresh: () async {
+                final directory = await getApplicationDocumentsDirectory();
+                final file = File('${directory.path}/2.json');
+                await SaveJson().fetchJson();
+                final jsonString = await file.readAsString();
+
+                final jsonResponse = json.decode(jsonString);
+                List<News> data = [];
+                for (var news in jsonResponse) {
+                  News newsObj = News.fromJson(news);
+                  List<String> categoriesList = newsObj.categories.split(" ");
+                  newsObj.categoriesList = categoriesList;
+                  data.add(newsObj);
+                }
+
+                setState(() {
+                  newsList = data;
+                  newsListFiltered = data
+                      .where((itm) =>
+                          itm.language == language &&
+                          (itm.categoriesList.contains(widget.category) ||
+                              widget.category == 'all'))
+                      .toList();
+                  print(newsListFiltered);
+                });
+              },
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   itemCount: newsListFiltered!.length,
                   itemBuilder: (context, index) {
-                    News news = newsListFiltered[index];
+                    News news = newsListFiltered![index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
