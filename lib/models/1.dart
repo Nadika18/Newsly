@@ -46,6 +46,7 @@ class News {
     fullBodyTts = json['full_body_tts'];
     created = json['created'];
     summary = json['summary'];
+    language = json['language'];
   }
 
   //toJSON

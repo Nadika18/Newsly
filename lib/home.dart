@@ -16,6 +16,8 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+String language = 'NP'; // NP or EN
+
 class _HomeState extends State<Home> {
   int currentPage = 1;
 
@@ -28,16 +30,37 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-          child: Text('Newsly',
-              style: TextStyle(
-                fontFamily: 'Kalam',
-                fontSize: 35,
-                color: Colors.white,
-              )),
-        )),
+        title: Row(
+          children: [
+            // The first text is to add even gap in the left as well
+            Text(
+              "EN",
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+              child: Text('Newsly',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Kalam',
+                    fontSize: 35,
+                    color: Colors.white,
+                  )),
+            )),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  if (language == 'NP')
+                    language = 'EN';
+                  else
+                    language = 'NP';
+                });
+              },
+              child: Text(language, style: TextStyle(color: Colors.white)),
+            )
+          ],
+        ),
         // toolbarHeight: 90,
         // backgroundColor: Colors.grey[300],
         bottom: const TabBar(
@@ -124,8 +147,9 @@ class _ElevatedCardState extends State<ElevatedCard> {
             List<News>? newsList = snapshot.data;
             List<News>? newsListFiltered = snapshot.data
                 ?.where((itm) =>
-                    itm.categoriesList.contains(widget.category) ||
-                    widget.category == 'all')
+                    itm.language == language &&
+                    (itm.categoriesList.contains(widget.category) ||
+                        widget.category == 'all'))
                 .toList();
 
             return Expanded(
