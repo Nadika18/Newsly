@@ -36,7 +36,22 @@ class _SummaryState extends State<Summary> {
                     List<News>? newsList = snapshot.data;
 
                     return CarouselSlider(
-                      options: CarouselOptions(height: 450.0),
+                      options: CarouselOptions(
+                        height: 450,
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        reverse: false,
+                        autoPlay: true,
+                        // autoPlayInterval: Duration(seconds: 5),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.3,
+                        // onPageChanged: callbackFunction,
+                        scrollDirection: Axis.horizontal,
+                      ),
                       items: newsList?.toList().map((news) {
                         return Builder(
                           builder: (BuildContext context) {

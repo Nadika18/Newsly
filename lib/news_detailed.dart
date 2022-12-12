@@ -124,20 +124,20 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                             });
                           }
                         }),
-                    const Padding(
-                      padding: EdgeInsets.all(12.0),
-                    ),
+                    // const Padding(
+                    //   padding: EdgeInsets.all(12.0),
+                    // ),
                   ],
                 ),
               ),
               Column(
                 children: [
                   SizedBox(
-                    // height: 10,
+                    height: 45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
-                      elevation: 5,
+                      elevation: 1,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.1),
@@ -146,7 +146,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                         child: TabBar(
                           indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.lightBlue,
+                            color: Theme.of(context).primaryColor,
                           ),
                           controller: tabController,
                           isScrollable: true,
@@ -157,7 +157,8 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                             const Tab(
                               child: Text(
                                 "Summary",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0)),
                               ),
                             ),
                             const Tab(

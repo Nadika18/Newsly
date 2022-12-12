@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "nav.dart";
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        textTheme: GoogleFonts.ubuntuTextTheme(
+          Theme.of(context).textTheme,
+        ),
         primarySwatch: Colors.lightBlue,
       ),
       home: const Nav(),
