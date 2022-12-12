@@ -23,6 +23,8 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
   bool isPlaying = false; // true when media is playing
   bool isBusy = false; // true when we're awaiting media
   bool isSaved = false; // true when news is saved
+  bool isSummary = false;
+  bool isFullNews = true;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
 
@@ -92,7 +94,16 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                 : Icon(Icons.play_arrow),
                         onPressed: () async {
                           if (!isBusy) {
-                            if (!isPlaying) {
+                            if (!isPlaying && isSummary) {
+                              setState(() {
+                                isBusy = true;
+                              });
+                              await player
+                                  .play(UrlSource(widget.news.summaryTts));
+                              setState(() {
+                                isBusy = false;
+                              });
+                            } else if (!isPlaying && isFullNews) {
                               setState(() {
                                 isBusy = true;
                               });
@@ -149,6 +160,12 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TabBar(
+                          onTap: (int index) {
+                            setState(() {
+                              isSummary = (index == 0);
+                              isFullNews = (index == 1);
+                            });
+                          },
                           indicator: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: Theme.of(context).primaryColor,
@@ -188,9 +205,10 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           itemCount: 1,
                           itemBuilder: (context, index) {
                             return Container(
-                                margin: const EdgeInsets.all(10),
-                                padding: const EdgeInsets.all(10),
-                                child: Text(widget.news.summary));
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
+                              child: Text(widget.news.summary),
+                            );
                           },
                         ),
                         ListView.builder(
