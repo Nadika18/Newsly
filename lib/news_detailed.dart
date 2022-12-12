@@ -133,11 +133,11 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
               Column(
                 children: [
                   SizedBox(
-                    // height: 10,
+                    height: 45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
-                      elevation: 5,
+                      elevation: 1,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.1),
@@ -156,7 +156,8 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                             Tab(
                               child: Text(
                                 "Summary",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0)),
                               ),
                             ),
                             Tab(
