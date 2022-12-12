@@ -162,8 +162,8 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                         child: TabBar(
                           onTap: (int index) {
                             setState(() {
-                              isSummary = (index == 0);
-                              isFullNews = (index == 1);
+                              isFullNews = (index == 0);
+                              isSummary = (index == 1);
                             });
                           },
                           indicator: BoxDecoration(
@@ -178,15 +178,15 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           tabs: [
                             const Tab(
                               child: Text(
-                                "Summary",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0)),
+                                "Full News",
+                                style: TextStyle(color: Colors.black),
                               ),
                             ),
                             const Tab(
                               child: Text(
-                                "Full News",
-                                style: TextStyle(color: Colors.black),
+                                "Summary",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0)),
                               ),
                             ),
                           ],
@@ -200,18 +200,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                       controller: tabController,
                       children: [
                         ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.all(10),
-                              padding: const EdgeInsets.all(10),
-                              child: Text(widget.news.summary),
-                            );
-                          },
-                        ),
-                        ListView.builder(
                           // scrollDirection: Axis.vertical,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -221,6 +209,18 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                 margin: const EdgeInsets.all(10),
                                 padding: const EdgeInsets.all(10),
                                 child: Text(widget.news.description));
+                          },
+                        ),
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
+                              child: Text(widget.news.summary),
+                            );
                           },
                         ),
                       ],
