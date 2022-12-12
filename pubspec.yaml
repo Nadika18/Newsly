@@ -39,8 +39,6 @@ dependencies:
   http: ^0.13.5
   path_provider: ^2.0.11
   audioplayers: ^1.1.1
-  ffmpeg_kit_flutter: ^5.1.0
-  flutter_sound: ^9.2.13
   bubble_tab_indicator: "^0.1.5"
   carousel_slider: ^4.2.0
   google_fonts: ^2.1.0
