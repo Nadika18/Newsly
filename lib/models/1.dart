@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -73,7 +75,7 @@ class SaveJson {
   Future fetchJson() async {
     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
     var response = await http.get(url);
-    var jsonString = response.body;
+    var jsonString = utf8.decode(response.bodyBytes);
     print(jsonString);
     //save this json to assets file 2.json in assets folder
     final directory = await getApplicationDocumentsDirectory();

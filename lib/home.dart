@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'news_detailed.dart';
 import 'dart:async' show Future;
 import 'models/1.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -25,6 +27,12 @@ class _HomeState extends State<Home> {
     Text('Summary'),
     Text('Home'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    SaveJson().fetchJson();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +117,17 @@ class _HomeState extends State<Home> {
 
 class NewsLoading {
   Future<List<News>> loadNews() async {
-    var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
-    var response = await http.get(url);
-    var jsonString = response.body;
-    // var jsonString = await rootBundle.loadString('assets/1.json');
+    // var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    // var response = await http.get(url);
+    // var jsonString = response.body;
+    // final file = File('${directory.path}/2.json');
+    // final contents = await file.readAsString();
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/2.json');
+    if (!file.existsSync()) await SaveJson().fetchJson();
+    final jsonString = await file.readAsString();
 
-    final jsonResponse = json.decode(utf8.decode(response.bodyBytes));
+    final jsonResponse = json.decode(jsonString);
     List<News> newsList = [];
     for (var news in jsonResponse) {
       News newsObj = News.fromJson(news);
@@ -153,62 +166,65 @@ class _ElevatedCardState extends State<ElevatedCard> {
                 .toList();
 
             return Expanded(
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemCount: newsListFiltered!.length,
-                    itemBuilder: (context, index) {
-                      News news = newsListFiltered[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      NewsDetailedView(news: news)));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(0, 15, 0, 5),
-                          child: Card(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  //return news.title
-                                  title: Text(
-                                    news.title,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
+                child: RefreshIndicator(
+              onRefresh: () async {},
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: newsListFiltered!.length,
+                  itemBuilder: (context, index) {
+                    News news = newsListFiltered[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsDetailedView(news: news)));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(0, 15, 0, 5),
+                        child: Card(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                //return news.title
+                                title: Text(
+                                  news.title,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
-                                  subtitle: Text(news.author),
                                 ),
-                                const SizedBox(height: 20),
-                                Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    child: Column(children: [
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: AspectRatio(
-                                            aspectRatio: 16 / 9,
-                                            child: Image.network(news.imagePath,
-                                                fit: BoxFit.cover),
-                                          )),
-                                      const SizedBox(height: 20),
-                                      Text(
-                                          '${news.description.characters.take(200)}...'),
-                                      const SizedBox(height: 20),
-                                    ])),
-                              ],
-                            ),
+                                subtitle: Text(news.author),
+                              ),
+                              const SizedBox(height: 20),
+                              Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Column(children: [
+                                    ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: Image.network(news.imagePath,
+                                              fit: BoxFit.cover),
+                                        )),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                        '${news.description.characters.take(200)}...'),
+                                    const SizedBox(height: 20),
+                                  ])),
+                            ],
                           ),
                         ),
-                      );
-                    }));
+                      ),
+                    );
+                  }),
+            ));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
