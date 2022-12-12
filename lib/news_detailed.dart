@@ -83,47 +83,52 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                 trailing: Wrap(
                   spacing: 0,
                   children: <Widget>[
-                    IconButton(
-                      icon: isBusy
-                          ? Icon(Icons.arrow_downward)
-                          : isPlaying
-                              ? Icon(Icons.pause)
-                              : Icon(Icons.play_arrow),
-                      onPressed: () async {
-                        if (!isBusy) {
-                          if (!isPlaying) {
+                    StatefulBuilder(
+                      builder: (context, setState) => IconButton(
+                        icon: isBusy
+                            ? Icon(Icons.arrow_downward)
+                            : isPlaying
+                                ? Icon(Icons.pause)
+                                : Icon(Icons.play_arrow),
+                        onPressed: () async {
+                          if (!isBusy) {
+                            if (!isPlaying) {
+                              setState(() {
+                                isBusy = true;
+                              });
+                              await player
+                                  .play(UrlSource(widget.news.fullBodyTts));
+                              setState(() {
+                                isBusy = false;
+                              });
+                            } else {
+                              await player.pause();
+                            }
                             setState(() {
-                              isBusy = true;
+                              isPlaying = !isPlaying;
                             });
-                            await player
-                                .play(UrlSource(widget.news.fullBodyTts));
-                            setState(() {
-                              isBusy = false;
-                            });
-                          } else {
-                            await player.pause();
                           }
-                          setState(() {
-                            isPlaying = !isPlaying;
-                          });
-                        }
-                      },
+                        },
+                      ),
                     ),
-                    IconButton(
-                        icon: isSaved
-                            ? Icon(Icons.bookmark)
-                            : Icon(Icons.bookmark_outline),
-                        onPressed: () {
-                          if (!isSaved) {
-                            setState(() {
-                              isSaved = true;
-                            });
-                          } else {
-                            setState(() {
-                              isSaved = false;
-                            });
-                          }
-                        }),
+
+                    StatefulBuilder(
+                      builder: (context, setState) => IconButton(
+                          icon: isSaved
+                              ? Icon(Icons.bookmark)
+                              : Icon(Icons.bookmark_outline),
+                          onPressed: () {
+                            if (!isSaved) {
+                              setState(() {
+                                isSaved = true;
+                              });
+                            } else {
+                              setState(() {
+                                isSaved = false;
+                              });
+                            }
+                          }),
+                    ),
                     // const Padding(
                     //   padding: EdgeInsets.all(12.0),
                     // ),
