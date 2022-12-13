@@ -132,7 +132,7 @@ class NewsLoading {
     List<News> newsList = [];
     for (var news in jsonResponse) {
       News newsObj = News.fromJson(news);
-      List<String> categoriesList = newsObj.categories.split(" ");
+      List<String> categoriesList = newsObj.categories.split(",");
       newsObj.categoriesList = categoriesList;
       newsList.add(newsObj);
     }
@@ -178,7 +178,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                 List<News> data = [];
                 for (var news in jsonResponse) {
                   News newsObj = News.fromJson(news);
-                  List<String> categoriesList = newsObj.categories.split(" ");
+                  List<String> categoriesList = newsObj.categories.split(",");
                   newsObj.categoriesList = categoriesList;
                   data.add(newsObj);
                 }

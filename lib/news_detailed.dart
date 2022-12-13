@@ -113,6 +113,9 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               await player
                                   .play(UrlSource(widget.news.summaryTts));
+                              player.onPlayerComplete.listen((instance) {
+                                isPlaying = false;
+                              });
                               setState(() {
                                 isBusy = false;
                               });
@@ -122,6 +125,10 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               await player
                                   .play(UrlSource(widget.news.fullBodyTts));
+
+                              player.onPlayerComplete.listen((instance) {
+                                isPlaying = false;
+                              });
                               setState(() {
                                 isBusy = false;
                               });
