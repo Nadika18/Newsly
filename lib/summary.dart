@@ -14,24 +14,6 @@ Duration position = Duration.zero;
 int currentIndex = 0;
 List<News>? newsList;
 
-void playNews() async {
-  if (!isPlaying) {
-    if (!(currentIndex == newsList!.length - 1)) {
-      await player.play(UrlSource(newsList![currentIndex].summaryTts));
-      isPlaying = true;
-      player.onPlayerComplete.listen((instance) {
-        isPlaying = false;
-        print('Complete');
-        currentIndex += 1;
-        playNews();
-      });
-    }
-  } else {
-    isPlaying = false;
-    player.pause();
-  }
-}
-
 class Summary extends StatefulWidget {
   const Summary({super.key});
 
@@ -44,6 +26,28 @@ class _SummaryState extends State<Summary> {
   void dispose() {
     player.dispose();
     super.dispose();
+  }
+
+  void playNews() async {
+    if (!isPlaying) {
+      if (!(currentIndex == newsList!.length - 1)) {
+        setState(() {
+          isPlaying = true;
+        });
+        await player.play(UrlSource(newsList![currentIndex].summaryTts));
+        player.onPlayerComplete.listen((instance) {
+          isPlaying = false;
+          print('Complete');
+          currentIndex += 1;
+          playNews();
+        });
+      }
+    } else {
+      setState(() {
+        isPlaying = false;
+      });
+      player.pause();
+    }
   }
 
   @override
@@ -195,7 +199,6 @@ class _SummaryState extends State<Summary> {
                     })),
             ElevatedButton.icon(
               onPressed: playNews,
-
               icon: Icon(
                   // <-- Icon
                   isPlaying ? Icons.pause_outlined : Icons.play_arrow_outlined,
