@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsportal/summary.dart';
 import 'package:newsportal/home.dart';
+import 'package:newsportal/saved.dart';
 
 class Nav extends StatefulWidget {
   const Nav({super.key});
@@ -15,6 +16,7 @@ class _NavState extends State<Nav> {
   List<Widget> _widgetOptions = <Widget>[
     DefaultTabController(length: 10, child: Home()),
     Summary(),
+    Saved()
   ];
 
   void _onItemTap(int index) {
@@ -38,6 +40,10 @@ class _NavState extends State<Nav> {
           BottomNavigationBarItem(
             icon: Icon(Icons.summarize_outlined),
             label: 'Summary',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark_outline_outlined),
+            label: 'Saved',
           ),
         ],
         currentIndex: _selectedIndex,
