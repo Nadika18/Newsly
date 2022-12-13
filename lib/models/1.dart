@@ -35,6 +35,7 @@ class News {
   });
 
   News.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     fullBodyTts = json['full_body_tts'];
     title = json['title'];
     description = json['body_text'];

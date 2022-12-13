@@ -46,8 +46,8 @@ class _SavedState extends State<Saved> {
                 List<News>? newsListFiltered = snapshot.data
                     ?.where((itm) => savedNewsID.contains(itm.id))
                     .toList();
-
-                // TODO
+                return Text('${newsListFiltered?.length}');
+                // TODO build a list of saved news stored in newsListFiltered
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
