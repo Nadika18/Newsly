@@ -84,7 +84,7 @@ class SaveJson {
     final directory = await getApplicationDocumentsDirectory();
     print("Hello");
     print(directory.path);
-    final file = File('${directory.path}/summary.json');
+    final file = File('${directory.path}/2.json');
     file.writeAsString(jsonString);
     final contents = await file.readAsString();
     return contents;
@@ -98,7 +98,7 @@ class SaveJson {
     final directory = await getApplicationDocumentsDirectory();
     print("Hello");
     print(directory.path);
-    final file = File('${directory.path}/2.json');
+    final file = File('${directory.path}/summary.json');
     file.writeAsString(jsonString);
     final contents = await file.readAsString();
     print(contents);
