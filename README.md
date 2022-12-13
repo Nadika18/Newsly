@@ -13,13 +13,15 @@ Newsly is a news app that tailors to your preferences! You can stay up to date o
 
 ### Home Page
 
-![alt text](/assets/ImageNewsly.png "homePage")
+<img src="assets/ImageNewsly.png" width="250">
+
 
 <br>
 
 ### Viewing Summary
 
-![alt text](/assets/summary.png "summary")
+<img src="assets/summary.png" width="250">
+
 
 <br>
 <br>
