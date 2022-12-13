@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'models/1.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 final player = AudioPlayer();
 bool isPlaying = false;
@@ -72,8 +73,20 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                   borderRadius: BorderRadius.circular(10.0),
                   child: AspectRatio(
                     aspectRatio: 16 / 10,
-                    child:
-                        Image.network(widget.news.imagePath, fit: BoxFit.cover),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.news.imagePath,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   )),
               const SizedBox(height: 20),
               // subtitle

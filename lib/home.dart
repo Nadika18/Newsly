@@ -10,6 +10,7 @@ import 'dart:async' show Future;
 import 'models/1.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -235,8 +236,26 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                             BorderRadius.circular(10.0),
                                         child: AspectRatio(
                                           aspectRatio: 16 / 9,
-                                          child: Image.network(news.imagePath,
-                                              fit: BoxFit.cover),
+                                          child: CachedNetworkImage(
+                                            imageUrl: news.imagePath,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) => Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    '/assets/image_failed.png'),
+                                          ),
                                         )),
                                     const SizedBox(height: 20),
                                     Text(
