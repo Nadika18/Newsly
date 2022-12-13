@@ -20,12 +20,23 @@ Newsly is a news app that tailors to your preferences! You can stay up to date o
 
 <br>
 
+### View news according to your language prefered: EN(English) or NP(Nepali)
+
+<img src="assets/Englishnews.jpg" width="244"> <img src="assets/Nepalinews.png" width="250">
+
 ### Viewing Summary
 
 <img src="assets/summary.png" width="250">
 
 
 <br>
+
+### View news according to your interest : Technology, Politics, Sports, Entertainment, Health,Business, etc.
+
+<img src="assets/interest.png" width="250">
+
+
+
 <br>
 
 
