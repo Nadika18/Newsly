@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'models/1.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 final player = AudioPlayer();
 bool isPlaying = false;
 Duration duration = Duration.zero;
 Duration position = Duration.zero;
+
+List<int> savedNewsID = [];
+
+void writeFile() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/saved.json');
+  file.writeAsBytes(savedNewsID);
+}
 
 class NewsDetailedView extends StatefulWidget {
   dynamic news = '';
@@ -36,6 +48,13 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 2, vsync: this);
+    @override
+    void StatefulPause() {
+      setState(() {
+        isPlaying = false;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         // title: Text('${widget.news.title}'),
@@ -71,8 +90,20 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                   borderRadius: BorderRadius.circular(10.0),
                   child: AspectRatio(
                     aspectRatio: 16 / 10,
-                    child:
-                        Image.network(widget.news.imagePath, fit: BoxFit.cover),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.news.imagePath,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   )),
               const SizedBox(height: 20),
               // subtitle
@@ -99,6 +130,9 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               await player
                                   .play(UrlSource(widget.news.summaryTts));
+                              player.onPlayerComplete.listen((instance) {
+                                isPlaying = false;
+                              });
                               setState(() {
                                 isBusy = false;
                                 
@@ -109,6 +143,10 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               await player
                                   .play(UrlSource(widget.news.fullBodyTts));
+
+                              player.onPlayerComplete.listen((instance) {
+                                isPlaying = false;
+                              });
                               setState(() {
                                 isBusy = false;
                                 
@@ -132,10 +170,14 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           onPressed: () {
                             if (!isSaved) {
                               setState(() {
+                                savedNewsID.add(widget.news.id);
+                                writeFile();
                                 isSaved = true;
                               });
                             } else {
                               setState(() {
+                                savedNewsID.remove(widget.news.id);
+                                writeFile();
                                 isSaved = false;
                               });
                             }
@@ -166,7 +208,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               setState(() {
                                 if (isPlaying) {
                                   player.pause();
-                                  isPlaying = false;
                                 }
                                 index == 0
                                     ? isFullNews = true
