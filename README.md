@@ -1,16 +1,38 @@
-# newsportal
+# Newsly
+Newsly is a news app that tailors to your preferences! You can stay up to date on the latest news every day with Newsly. 
 
-A new Flutter project.
+## Features
 
-## Getting Started
+* Get a daily personalised summary of the news stories of your interest along with the top news of the day in both text and audio format that can be accessed even in offline mode.
+* Get news feeds based on one’s interest. Eg: Technology, Politics, Sports, Entertainment, Health,Business, etc.
+* Listen to the full news in both English and Nepali language.
+* Be informed about what matters most to you via a daily email newsletter.
+* Read the news offline when your device is not connected to internet.
 
-This project is a starting point for a Flutter application.
+<br>
 
-A few resources to get you started if this is your first Flutter project:
+### Home Page
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![alt text](/assets/ImageNewsly.png "homePage")
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<br>
+
+### Viewing Summary
+
+![alt text](/assets/summary.png "summary")
+
+<br>
+<br>
+
+
+
+## Setup Project
+
+
+* Clone the project
+
+ * Install flutter from [here](https://flutter.dev/docs/get-started/install)
+
+* Run `flutter pub get` to install dependencies
+* Run `flutter run` to run the project
+
