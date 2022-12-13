@@ -101,6 +101,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                   .play(UrlSource(widget.news.summaryTts));
                               setState(() {
                                 isBusy = false;
+                                
                               });
                             } else if (!isPlaying && isFullNews) {
                               setState(() {
@@ -110,6 +111,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                   .play(UrlSource(widget.news.fullBodyTts));
                               setState(() {
                                 isBusy = false;
+                                
                               });
                             } else {
                               await player.pause();
