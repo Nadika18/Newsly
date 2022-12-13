@@ -138,6 +138,28 @@ class NewsLoading {
     }
     return newsList;
   }
+
+  Future<List<News>> loadSummary() async {
+    // var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    // var response = await http.get(url);
+    // var jsonString = response.body;
+    // final file = File('${directory.path}/2.json');
+    // final contents = await file.readAsString();
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/summary.json');
+    if (!file.existsSync()) await SaveJson().fetchJsonSummary();
+    final jsonString = await file.readAsString();
+
+    final jsonResponse = json.decode(jsonString);
+    List<News> newsList = [];
+    for (var news in jsonResponse) {
+      News newsObj = News.fromJson(news);
+      List<String> categoriesList = newsObj.categories.split(",");
+      newsObj.categoriesList = categoriesList;
+      newsList.add(newsObj);
+    }
+    return newsList;
+  }
 }
 
 class ElevatedCard extends StatefulWidget {

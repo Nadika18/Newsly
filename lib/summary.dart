@@ -9,6 +9,7 @@ import 'dart:math';
 
 final player = AudioPlayer();
 bool isPlaying = false;
+bool isBusy = false;
 Duration duration = Duration.zero;
 Duration position = Duration.zero;
 int currentIndex = 0;
@@ -28,29 +29,39 @@ class _SummaryState extends State<Summary> {
     super.dispose();
   }
 
-  void playNews() async {
-    if (!isPlaying) {
-      if (!(currentIndex == newsList!.length - 1)) {
-        setState(() {
-          isPlaying = true;
-        });
-        await player.play(UrlSource(newsList![currentIndex].summaryTts));
-        player.onPlayerComplete.listen((instance) {
-          isPlaying = false;
-          currentIndex += 1;
-          playNews();
-        });
-      }
-    } else {
-      setState(() {
-        isPlaying = false;
-      });
-      player.pause();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    CarouselController buttonCarouselController = CarouselController();
+    void playNews() async {
+      if (!isPlaying) {
+        if (!(currentIndex == newsList!.length - 1)) {
+          setState(() {
+            isBusy = true;
+          });
+          await player.play(UrlSource(newsList![currentIndex].summaryTts));
+          setState(() {
+            isBusy = false;
+            isPlaying = true;
+          });
+
+          player.onPlayerComplete.listen((instance) {
+            setState(() {
+              isPlaying = false;
+              // currentIndex++;
+              // playNews();
+              // buttonCarouselController.nextPage();
+              // player.dispose();
+            });
+          });
+        }
+      } else {
+        setState(() {
+          isPlaying = false;
+        });
+        player.pause();
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Center(
@@ -67,7 +78,13 @@ class _SummaryState extends State<Summary> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('Flash News', style: TextStyle(color: Colors.black)),
+            Text('Flash News',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
             Center(
                 child: FutureBuilder(
                     future: NewsLoading().loadNews(),
@@ -77,6 +94,7 @@ class _SummaryState extends State<Summary> {
                         newsList = snapshot.data;
 
                         return CarouselSlider(
+                          carouselController: buttonCarouselController,
                           options: CarouselOptions(
                             height: 500,
                             aspectRatio: 16 / 9,
@@ -91,7 +109,12 @@ class _SummaryState extends State<Summary> {
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             enlargeFactor: 0.3,
-                            // onPageChanged: callbackFunction,
+                            onPageChanged: (index, reason) {
+                              currentIndex = index;
+                              player.dispose();
+                              isPlaying = false;
+                              setState(() {});
+                            },
                             scrollDirection: Axis.horizontal,
                           ),
                           items: newsList?.toList().map((news) {
@@ -196,11 +219,11 @@ class _SummaryState extends State<Summary> {
                     })),
             ElevatedButton.icon(
               onPressed: playNews,
-              icon: Icon(
-                  // <-- Icon
-                  isPlaying ? Icons.pause_outlined : Icons.play_arrow_outlined,
-                  size: 24.0,
-                  color: Colors.white),
+              icon: isBusy
+                  ? Icon(Icons.arrow_downward, size: 24.0, color: Colors.white)
+                  : !isPlaying
+                      ? Icon(Icons.play_arrow, size: 24.0, color: Colors.white)
+                      : Icon(Icons.pause, size: 24.0, color: Colors.white),
               label: Text('Hear News',
                   style: TextStyle(color: Colors.white)), // <-- Text
             )

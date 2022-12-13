@@ -148,6 +148,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                   .play(UrlSource(widget.news.summaryTts));
                               player.onPlayerComplete.listen((instance) {
                                 isPlaying = false;
+                                setState(() {});
                               });
                               setState(() {
                                 isBusy = false;
@@ -161,6 +162,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
 
                               player.onPlayerComplete.listen((instance) {
                                 isPlaying = false;
+                                setState(() {});
                               });
                               setState(() {
                                 isBusy = false;
