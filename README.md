@@ -1,6 +1,8 @@
 # Newsly
 Newsly is a news app that tailors to your preferences! You can stay up to date on the latest news every day with Newsly. 
 
+<br>
+
 ## Features
 
 * Get a daily personalised summary of the news stories of your interest along with the top news of the day in both text and audio format that can be accessed even in offline mode.
@@ -25,7 +27,6 @@ Newsly is a news app that tailors to your preferences! You can stay up to date o
 
 <br>
 <br>
-
 
 
 ## Setup Project
