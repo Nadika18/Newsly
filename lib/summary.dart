@@ -63,7 +63,7 @@ class _SummaryState extends State<Summary> {
                                         builder: (context) =>
                                             NewsDetailedView(news: news)));
                               },
-                              child: Container(
+                              child: SingleChildScrollView(child:Container(
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                                   decoration: BoxDecoration(
@@ -105,7 +105,7 @@ class _SummaryState extends State<Summary> {
                                       ],
                                     ),
                                   )),
-                            );
+                            ));
                           },
                         );
                       }).toList(),
