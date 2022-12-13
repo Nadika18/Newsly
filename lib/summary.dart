@@ -5,6 +5,7 @@ import '/models/1.dart';
 import 'news_detailed.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:math';
 
 final player = AudioPlayer();
 bool isPlaying = false;
@@ -103,75 +104,86 @@ class _SummaryState extends State<Summary> {
                                             builder: (context) =>
                                                 NewsDetailedView(news: news)));
                                   },
-                                  child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5.0),
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255)),
-                                      child: Card(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            ListTile(
-                                              //return news.title
-                                              title: Text(
-                                                '${news.title}',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
+                                  child: SingleChildScrollView(
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints.tightFor(
+                                          height: max(500, 1000)),
+                                      child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255)),
+                                          child: Card(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  //return news.title
+                                                  title: Text(
+                                                    '${news.title}',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                  subtitle:
+                                                      Text('${news.author}'),
                                                 ),
-                                              ),
-                                              subtitle: Text('${news.author}'),
-                                            ),
-                                            Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        10, 0, 10, 0),
-                                                child: Column(children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      child: AspectRatio(
-                                                        aspectRatio: 16 / 9,
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl:
-                                                              news.imagePath,
-                                                          imageBuilder: (context,
-                                                                  imageProvider) =>
-                                                              Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              image:
-                                                                  DecorationImage(
-                                                                image:
-                                                                    imageProvider,
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                Container(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(10, 0, 10, 0),
+                                                    child: Column(children: [
+                                                      ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          child: AspectRatio(
+                                                            aspectRatio: 16 / 9,
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl: news
+                                                                  .imagePath,
+                                                              imageBuilder:
+                                                                  (context,
+                                                                          imageProvider) =>
+                                                                      Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    image:
+                                                                        imageProvider,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
                                                               ),
+                                                              placeholder: (context,
+                                                                      url) =>
+                                                                  Center(
+                                                                      child:
+                                                                          CircularProgressIndicator()),
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                                      '/assets/image_failed.png'),
                                                             ),
-                                                          ),
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              Center(
-                                                                  child:
-                                                                      CircularProgressIndicator()),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Image.asset(
-                                                                  '/assets/image_failed.png'),
-                                                        ),
-                                                      )),
-                                                  const SizedBox(height: 20),
-                                                  Text(
-                                                      '${news.summary.characters.take(400)}...')
-                                                ])),
-                                          ],
-                                        ),
-                                      )),
+                                                          )),
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      Text('${news.summary}')
+                                                    ])),
+                                              ],
+                                            ),
+                                          )),
+                                    ),
+                                  ),
                                 );
                               },
                             );

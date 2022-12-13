@@ -37,6 +37,13 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 2, vsync: this);
+    @override
+    void StatefulPause() {
+      setState(() {
+        isPlaying = false;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         // title: Text('${widget.news.title}'),
@@ -184,7 +191,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               setState(() {
                                 if (isPlaying) {
                                   player.pause();
-                                  isPlaying = false;
                                 }
                                 index == 0
                                     ? isFullNews = true
