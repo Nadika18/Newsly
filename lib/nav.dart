@@ -42,7 +42,7 @@ class _NavState extends State<Nav> {
             label: 'Summary',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.summarize_outlined),
+            icon: Icon(Icons.bookmark_outline_outlined),
             label: 'Saved',
           ),
         ],
