@@ -67,9 +67,7 @@ class _SummaryState extends State<Summary> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-                'Placeholder invisible text for better alignment of other sibling items',
-                style: TextStyle(color: Colors.black.withOpacity(0))),
+            Text('Flash News', style: TextStyle(color: Colors.black)),
             Center(
                 child: FutureBuilder(
                     future: NewsLoading().loadNews(),
