@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'home.dart';
 import '/models/1.dart';
 import 'news_detailed.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Summary extends StatefulWidget {
   const Summary({super.key});
@@ -37,7 +38,7 @@ class _SummaryState extends State<Summary> {
 
                     return CarouselSlider(
                       options: CarouselOptions(
-                        height: 450,
+                        height: 500,
                         aspectRatio: 16 / 9,
                         viewportFraction: 0.8,
                         initialPage: 0,
@@ -94,9 +95,31 @@ class _SummaryState extends State<Summary> {
                                                           10.0),
                                                   child: AspectRatio(
                                                     aspectRatio: 16 / 9,
-                                                    child: Image.network(
-                                                        '${news.imagePath}',
-                                                        fit: BoxFit.cover),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: news.imagePath,
+                                                      imageBuilder: (context,
+                                                              imageProvider) =>
+                                                          Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image:
+                                                                imageProvider,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Center(
+                                                              child:
+                                                                  CircularProgressIndicator()),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              '/assets/image_failed.png'),
+                                                    ),
                                                   )),
                                               const SizedBox(height: 20),
                                               Text(
