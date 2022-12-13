@@ -23,7 +23,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
   bool isPlaying = false; // true when media is playing
   bool isBusy = false; // true when we're awaiting media
   bool isSaved = false; // true when news is saved
-  bool isSummary = false;
   bool isFullNews = true;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
@@ -89,12 +88,12 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                       builder: (context, setState) => IconButton(
                         icon: isBusy
                             ? Icon(Icons.arrow_downward)
-                            : isPlaying
-                                ? Icon(Icons.pause)
-                                : Icon(Icons.play_arrow),
+                            : !isPlaying
+                                ? Icon(Icons.play_arrow)
+                                : Icon(Icons.pause),
                         onPressed: () async {
                           if (!isBusy) {
-                            if (!isPlaying && isSummary) {
+                            if (!isPlaying && !isFullNews) {
                               setState(() {
                                 isBusy = true;
                               });
@@ -163,8 +162,13 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           builder: (BuildContext context, setState) => TabBar(
                             onTap: (int index) {
                               setState(() {
-                                isFullNews = (index == 0);
-                                isSummary = (index == 1);
+                                if (isPlaying) {
+                                  player.pause();
+                                  isPlaying = false;
+                                }
+                                index == 0
+                                    ? isFullNews = true
+                                    : isFullNews = false;
                               });
                             },
                             indicator: BoxDecoration(
