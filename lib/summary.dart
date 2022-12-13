@@ -37,7 +37,6 @@ class _SummaryState extends State<Summary> {
         await player.play(UrlSource(newsList![currentIndex].summaryTts));
         player.onPlayerComplete.listen((instance) {
           isPlaying = false;
-          print('Complete');
           currentIndex += 1;
           playNews();
         });

@@ -58,7 +58,7 @@ class News {
     data['description'] = description;
     data['author'] = author;
     data['categories'] = categories;
-    data['created'] = created;
+    data['created_str'] = created;
     data['title'] = title;
     data['language'] = language;
     data['summary'] = summary;

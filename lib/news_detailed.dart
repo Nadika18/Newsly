@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'models/1.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 final player = AudioPlayer();
 bool isPlaying = false;
 Duration duration = Duration.zero;
 Duration position = Duration.zero;
+
+List<int> savedNewsID = [];
+
+void writeFile() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/saved.json');
+  file.writeAsBytes(savedNewsID);
+}
 
 class NewsDetailedView extends StatefulWidget {
   dynamic news = '';
@@ -157,10 +168,14 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           onPressed: () {
                             if (!isSaved) {
                               setState(() {
+                                savedNewsID.add(widget.news.id);
+                                writeFile();
                                 isSaved = true;
                               });
                             } else {
                               setState(() {
+                                savedNewsID.remove(widget.news.id);
+                                writeFile();
                                 isSaved = false;
                               });
                             }
