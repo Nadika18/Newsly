@@ -159,37 +159,39 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                           color: Colors.black.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: TabBar(
-                          onTap: (int index) {
-                            setState(() {
-                              isFullNews = (index == 0);
-                              isSummary = (index == 1);
-                            });
-                          },
-                          indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context).primaryColor,
+                        child: StatefulBuilder(
+                          builder: (BuildContext context, setState) => TabBar(
+                            onTap: (int index) {
+                              setState(() {
+                                isFullNews = (index == 0);
+                                isSummary = (index == 1);
+                              });
+                            },
+                            indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            controller: tabController,
+                            isScrollable: true,
+                            labelPadding:
+                                const EdgeInsets.symmetric(horizontal: 30),
+                            // ignore: prefer_const_literals_to_create_immutables
+                            tabs: [
+                              const Tab(
+                                child: Text(
+                                  "Full News",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              const Tab(
+                                child: Text(
+                                  "Summary",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0)),
+                                ),
+                              ),
+                            ],
                           ),
-                          controller: tabController,
-                          isScrollable: true,
-                          labelPadding:
-                              const EdgeInsets.symmetric(horizontal: 30),
-                          // ignore: prefer_const_literals_to_create_immutables
-                          tabs: [
-                            const Tab(
-                              child: Text(
-                                "Full News",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            const Tab(
-                              child: Text(
-                                "Summary",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
