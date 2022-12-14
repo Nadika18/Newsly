@@ -87,7 +87,7 @@ class _SummaryState extends State<Summary> {
                 )),
             Center(
                 child: FutureBuilder(
-                    future: NewsLoading().loadNews(),
+                    future: NewsLoading().loadSummary(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         //initialize newslist

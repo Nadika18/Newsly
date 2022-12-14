@@ -41,10 +41,10 @@ class _NavState extends State<Nav> {
             icon: Icon(Icons.summarize_outlined),
             label: 'Summary',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_outline_outlined),
-            label: 'Saved',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.bookmark_outline_outlined),
+          //   label: 'Saved',
+          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
