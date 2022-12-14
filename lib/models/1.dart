@@ -74,7 +74,7 @@ class News {
 class SaveJson {
   //fetch json from https://newsly.asaurav.com.np/api/news/
   String username = "aabhusan";
-  Future fetchJson() async {
+  Future fetchJsonSummary() async {
     var url = Uri.parse(
         'https://newsly.asaurav.com.np/api/relevant-news/?username=${username}');
     var response = await http.get(url);
@@ -84,13 +84,13 @@ class SaveJson {
     final directory = await getApplicationDocumentsDirectory();
     print("Hello");
     print(directory.path);
-    final file = File('${directory.path}/2.json');
+    final file = File('${directory.path}/summary.json');
     file.writeAsString(jsonString);
     final contents = await file.readAsString();
     return contents;
   }
 
-  Future fetchJsonSummary() async {
+  Future fetchJson() async {
     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
     var response = await http.get(url);
     var jsonString = utf8.decode(response.bodyBytes);
@@ -98,7 +98,7 @@ class SaveJson {
     final directory = await getApplicationDocumentsDirectory();
     print("Hello");
     print(directory.path);
-    final file = File('${directory.path}/summary.json');
+    final file = File('${directory.path}/2.json');
     file.writeAsString(jsonString);
     final contents = await file.readAsString();
     print(contents);

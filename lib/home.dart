@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-String language = 'NP'; // NP or EN
+String language = 'EN'; // NP or EN
 
 class _HomeState extends State<Home> {
   int currentPage = 1;
@@ -94,8 +94,8 @@ class _HomeState extends State<Home> {
               Tab(text: "Entertainment"),
               Tab(text: "World"),
               Tab(text: "Business"),
-              Tab(text: "Health"),
-              Tab(text: "Literature"),
+              // Tab(text: "Health"),
+              // Tab(text: "Literature"),
             ]),
       ),
       body: TabBarView(
@@ -108,8 +108,8 @@ class _HomeState extends State<Home> {
           ElevatedCard(category: 'entertainment'),
           ElevatedCard(category: 'world'),
           ElevatedCard(category: 'business'),
-          ElevatedCard(category: 'health'),
-          ElevatedCard(category: 'literature'),
+          // ElevatedCard(category: 'health'),
+          // ElevatedCard(category: 'literature'),
         ],
       ),
     );
