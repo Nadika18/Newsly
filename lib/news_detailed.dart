@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'models/1.dart';
@@ -5,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 final player = AudioPlayer();
 bool isPlaying = false;
@@ -41,6 +44,19 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
 
   @override
   void dispose() {
+    Future<http.Response> createAlbum(String title) {
+      return http.post(
+        Uri.parse('https://newsly.asaurav.com.np/api/interactions/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'news': widget.news.id,
+          'user': 'aabhusan',
+        }),
+      );
+    }
+
     player.dispose();
     super.dispose();
   }
@@ -132,6 +148,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                                   .play(UrlSource(widget.news.summaryTts));
                               player.onPlayerComplete.listen((instance) {
                                 isPlaying = false;
+                                setState(() {});
                               });
                               setState(() {
                                 isBusy = false;
@@ -146,6 +163,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
 
                               player.onPlayerComplete.listen((instance) {
                                 isPlaying = false;
+                                setState(() {});
                               });
                               setState(() {
                                 isBusy = false;

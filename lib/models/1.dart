@@ -35,6 +35,7 @@ class News {
   });
 
   News.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     fullBodyTts = json['full_body_tts'];
     title = json['title'];
     description = json['body_text'];
@@ -72,11 +73,27 @@ class News {
 //save the json file got from http request to assets folder
 class SaveJson {
   //fetch json from https://newsly.asaurav.com.np/api/news/
+  String username = "aabhusan";
+  Future fetchJsonSummary() async {
+    var url = Uri.parse(
+        'https://newsly.asaurav.com.np/api/relevant-news/?username=${username}');
+    var response = await http.get(url);
+    var jsonString = utf8.decode(response.bodyBytes);
+    print(jsonString);
+    //save this json to assets file 2.json in assets folder
+    final directory = await getApplicationDocumentsDirectory();
+    print("Hello");
+    print(directory.path);
+    final file = File('${directory.path}/summary.json');
+    file.writeAsString(jsonString);
+    final contents = await file.readAsString();
+    return contents;
+  }
+
   Future fetchJson() async {
     var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
     var response = await http.get(url);
     var jsonString = utf8.decode(response.bodyBytes);
-    print(jsonString);
     //save this json to assets file 2.json in assets folder
     final directory = await getApplicationDocumentsDirectory();
     print("Hello");

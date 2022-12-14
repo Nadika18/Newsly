@@ -14,7 +14,7 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    DefaultTabController(length: 10, child: Home()),
+    DefaultTabController(length: 8, child: Home()),
     Summary(),
     Saved()
   ];

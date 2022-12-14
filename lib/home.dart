@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-String language = 'NP'; // NP or EN
+String language = 'EN'; // NP or EN
 
 class _HomeState extends State<Home> {
   int currentPage = 1;
@@ -94,8 +94,8 @@ class _HomeState extends State<Home> {
               Tab(text: "Entertainment"),
               Tab(text: "World"),
               Tab(text: "Business"),
-              Tab(text: "Health"),
-              Tab(text: "Literature"),
+              // Tab(text: "Health"),
+              // Tab(text: "Literature"),
             ]),
       ),
       body: TabBarView(
@@ -108,8 +108,8 @@ class _HomeState extends State<Home> {
           ElevatedCard(category: 'entertainment'),
           ElevatedCard(category: 'world'),
           ElevatedCard(category: 'business'),
-          ElevatedCard(category: 'health'),
-          ElevatedCard(category: 'literature'),
+          // ElevatedCard(category: 'health'),
+          // ElevatedCard(category: 'literature'),
         ],
       ),
     );
@@ -126,6 +126,28 @@ class NewsLoading {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/2.json');
     if (!file.existsSync()) await SaveJson().fetchJson();
+    final jsonString = await file.readAsString();
+
+    final jsonResponse = json.decode(jsonString);
+    List<News> newsList = [];
+    for (var news in jsonResponse) {
+      News newsObj = News.fromJson(news);
+      List<String> categoriesList = newsObj.categories.split(",");
+      newsObj.categoriesList = categoriesList;
+      newsList.add(newsObj);
+    }
+    return newsList;
+  }
+
+  Future<List<News>> loadSummary() async {
+    // var url = Uri.parse('https://newsly.asaurav.com.np/api/news/');
+    // var response = await http.get(url);
+    // var jsonString = response.body;
+    // final file = File('${directory.path}/2.json');
+    // final contents = await file.readAsString();
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/summary.json');
+    if (!file.existsSync()) await SaveJson().fetchJsonSummary();
     final jsonString = await file.readAsString();
 
     final jsonResponse = json.decode(jsonString);
