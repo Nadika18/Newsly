@@ -152,6 +152,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               setState(() {
                                 isBusy = false;
+                                
                               });
                             } else if (!isPlaying && isFullNews) {
                               setState(() {
@@ -166,6 +167,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               setState(() {
                                 isBusy = false;
+                                
                               });
                             } else {
                               await player.pause();
