@@ -42,8 +42,8 @@ class _NavState extends State<Nav> {
             label: 'Summary',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_outline_outlined),
-            label: 'Saved',
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
