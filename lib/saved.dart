@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -22,6 +23,7 @@ void read() async {
 }
 
 class _SavedState extends State<Saved> {
+  final double profileHeight = 144;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,20 +39,61 @@ class _SavedState extends State<Saved> {
                 )),
           )),
         ),
-        body: FutureBuilder(
-            future: NewsLoading().loadNews(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                //initialize newslist
-                List<News>? newsList = snapshot.data;
-                List<News>? newsListFiltered = snapshot.data
-                    ?.where((itm) => savedNewsID.contains(itm.id))
-                    .toList();
-                return Text('${newsListFiltered?.length}');
-                // TODO build a list of saved news stored in newsListFiltered
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            }));
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 80,
+              child: buildProfileImage(),
+            ),
+            Positioned(
+              top: 240,
+              child: buildContent(),
+            ),
+            Column(
+              children: [
+                const SizedBox(
+                  width: 100.0,
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Discord Link',
+                    fillColor: Colors.grey.shade200,
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.link,
+                      color: Colors.grey,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
+
+  Widget buildProfileImage() => CircleAvatar(
+        radius: profileHeight / 2,
+        backgroundColor: Colors.grey.shade800,
+        backgroundImage: const NetworkImage(
+          'https://unsplash.com/photos/YUu9UAcOKZ4',
+        ),
+      );
+
+  Widget buildContent() => Column(
+        // ignore: prefer_const_literals_to_create_immutables
+        children: [
+          const SizedBox(height: 8),
+          const Text(
+            'Suman Pandey',
+            style: TextStyle(
+              fontSize: 28,
+            ),
+          )
+        ],
+      );
 }
