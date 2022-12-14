@@ -9,6 +9,7 @@ import 'dart:math';
 
 final player = AudioPlayer();
 bool isPlaying = false;
+bool isBusy = false;
 Duration duration = Duration.zero;
 Duration position = Duration.zero;
 int currentIndex = 0;
@@ -28,29 +29,39 @@ class _SummaryState extends State<Summary> {
     super.dispose();
   }
 
-  void playNews() async {
-    if (!isPlaying) {
-      if (!(currentIndex == newsList!.length - 1)) {
-        setState(() {
-          isPlaying = true;
-        });
-        await player.play(UrlSource(newsList![currentIndex].summaryTts));
-        player.onPlayerComplete.listen((instance) {
-          isPlaying = false;
-          currentIndex += 1;
-          playNews();
-        });
-      }
-    } else {
-      setState(() {
-        isPlaying = false;
-      });
-      player.pause();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    CarouselController buttonCarouselController = CarouselController();
+    void playNews() async {
+      if (!isPlaying) {
+        if (!(currentIndex == newsList!.length - 1)) {
+          setState(() {
+            isBusy = true;
+          });
+          await player.play(UrlSource(newsList![currentIndex].summaryTts));
+          setState(() {
+            isBusy = false;
+            isPlaying = true;
+          });
+
+          player.onPlayerComplete.listen((instance) {
+            setState(() {
+              isPlaying = false;
+              // currentIndex++;
+              // playNews();
+              // buttonCarouselController.nextPage();
+              // player.dispose();
+            });
+          });
+        }
+      } else {
+        setState(() {
+          isPlaying = false;
+        });
+        player.pause();
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Center(
@@ -67,9 +78,13 @@ class _SummaryState extends State<Summary> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-                'Placeholder invisible text for better alignment of other sibling items',
-                style: TextStyle(color: Colors.black.withOpacity(0))),
+            Text('Flash News',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
             Center(
                 child: FutureBuilder(
                     future: NewsLoading().loadNews(),
@@ -78,35 +93,8 @@ class _SummaryState extends State<Summary> {
                         //initialize newslist
                         newsList = snapshot.data;
 
-                        return Carousel(
-                            newsList: snapshot.data as List<News>?
-                        ); 
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    })),
-            ElevatedButton.icon(
-              onPressed: playNews,
-              icon: Icon(
-                  // <-- Icon
-                  isPlaying ? Icons.pause_outlined : Icons.play_arrow_outlined,
-                  size: 24.0,
-                  color: Colors.white),
-              label: Text('Hear News',
-                  style: TextStyle(color: Colors.white)), // <-- Text
-            )
-          ],
-        ));
-  }
-}
-
-class Carousel extends StatelessWidget {
-  final List<News>? newsList;
-  const Carousel({super.key, this.newsList});
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider(
+                        return CarouselSlider(
+                          carouselController: buttonCarouselController,
                           options: CarouselOptions(
                             height: 500,
                             aspectRatio: 16 / 9,
@@ -121,7 +109,12 @@ class Carousel extends StatelessWidget {
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
                             enlargeFactor: 0.3,
-                            // onPageChanged: callbackFunction,
+                            onPageChanged: (index, reason) {
+                              currentIndex = index;
+                              player.dispose();
+                              isPlaying = false;
+                              setState(() {});
+                            },
                             scrollDirection: Axis.horizontal,
                           ),
                           items: newsList?.toList().map((news) {
@@ -220,5 +213,21 @@ class Carousel extends StatelessWidget {
                             );
                           }).toList(),
                         );
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    })),
+            ElevatedButton.icon(
+              onPressed: playNews,
+              icon: isBusy
+                  ? Icon(Icons.arrow_downward, size: 24.0, color: Colors.white)
+                  : !isPlaying
+                      ? Icon(Icons.play_arrow, size: 24.0, color: Colors.white)
+                      : Icon(Icons.pause, size: 24.0, color: Colors.white),
+              label: Text('Hear News',
+                  style: TextStyle(color: Colors.white)), // <-- Text
+            )
+          ],
+        ));
   }
 }
