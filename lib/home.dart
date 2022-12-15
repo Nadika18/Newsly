@@ -276,7 +276,7 @@ class _ElevatedCardState extends State<ElevatedCard> {
                                             errorWidget: (context, url,
                                                     error) =>
                                                 Image.asset(
-                                                    '/assets/image_failed.png'),
+                                                    'assets/image_failed.png'),
                                           ),
                                         )),
                                     const SizedBox(height: 20),

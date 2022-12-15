@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -27,61 +29,97 @@ class _SavedState extends State<Saved> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Center(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
-            child: Text('Newsly',
-                style: TextStyle(
-                  fontFamily: 'Kalam',
-                  fontSize: 35,
-                  color: Colors.white,
-                )),
-          )),
-        ),
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: 80,
-              child: buildProfileImage(),
-            ),
-            Positioned(
-              top: 240,
-              child: buildContent(),
-            ),
-            Column(
-              children: [
-                const SizedBox(
-                  width: 100.0,
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Discord Link',
-                    fillColor: Colors.grey.shade200,
-                    filled: true,
-                    prefixIcon: const Icon(
-                      Icons.link,
-                      color: Colors.grey,
+      appBar: AppBar(
+        title: const Center(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 300, 0, 300),
+          child: Text('Newsly',
+              style: TextStyle(
+                fontFamily: 'Kalam',
+                fontSize: 35,
+                color: Colors.white,
+              )),
+        )),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              Stack(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset('assets/user.jpg'),
                     ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide.none),
                   ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Suman Karki',
+                style: TextStyle(
+                  fontSize: 24,
                 ),
-              ],
-            ),
-          ],
-        ));
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Form(
+                  child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text('Discord Webhooks'),
+                        prefixIcon: Icon(Icons.discord_outlined)),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlue,
+                        side: BorderSide.none,
+                        shape: const StadiumBorder(),
+                      ),
+                      child: const Text('Save',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          )),
+                    ),
+                  ),
+                ],
+              ))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget buildProfileImage() => CircleAvatar(
-        radius: profileHeight / 2,
-        backgroundColor: Colors.grey.shade800,
-        backgroundImage: const NetworkImage(
-          'https://unsplash.com/photos/YUu9UAcOKZ4',
-        ),
+  Widget buildProfileImage() => Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0)),
+        child: Image.asset('/assets/image_failed.png'),
+        // backgroundColor: Colors.grey.shade800,
+        // backgroundImage: const NetworkImage(
+        //   'https://unsplash.com/photos/YUu9UAcOKZ4',
+        // ),
       );
 
   Widget buildContent() => Column(
