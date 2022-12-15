@@ -158,7 +158,7 @@ class NewsLoading {
       newsObj.categoriesList = categoriesList;
       newsList.add(newsObj);
     }
-    return newsList;
+    return newsList.sublist(1, 7);
   }
 }
 
