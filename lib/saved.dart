@@ -93,10 +93,11 @@ class _SavedState extends State<Saved> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: myController,
                         decoration: const InputDecoration(
                             label: Text('Discord Webhooks'),
                             prefixIcon: Icon(Icons.discord_outlined)),
-                        onSaved: (newValue) => {print(newValue)},
+                        onSaved: (newValue) => {setWebHook(myController.text)},
                         validator: (value) {
                           RegExp regex = RegExp(
                               r'/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/');
@@ -117,7 +118,6 @@ class _SavedState extends State<Saved> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              setWebHook(myController.text);
                             }
                           },
                           style: ElevatedButton.styleFrom(
