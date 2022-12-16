@@ -93,17 +93,19 @@ class _SavedState extends State<Saved> {
                         height: 20,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the webhook';
-                          }
-                          return null;
-                        },
-                        controller: myController,
                         decoration: const InputDecoration(
-                          label: Text('Discord Webhook'),
-                          prefixIcon: Icon(Icons.discord_outlined),
-                        ),
+                            label: Text('Discord Webhooks'),
+                            prefixIcon: Icon(Icons.discord_outlined)),
+                        onSaved: (newValue) => {print(newValue)},
+                        validator: (value) {
+                          RegExp regex = RegExp(
+                              r'/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/');
+                          if (!regex.hasMatch(value!)) {
+                            return 'Enter Valid Webhook Url';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 30,
@@ -114,6 +116,7 @@ class _SavedState extends State<Saved> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               setWebHook(myController.text);
                             }
                           },
@@ -122,11 +125,13 @@ class _SavedState extends State<Saved> {
                             side: BorderSide.none,
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text('Save',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              )),
+                          child: const Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       ),
                     ],
