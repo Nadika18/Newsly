@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'home.dart';
 import '/models/1.dart';
 import 'news_detailed.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Saved extends StatefulWidget {
   const Saved({super.key});
@@ -17,6 +19,7 @@ class Saved extends StatefulWidget {
 }
 
 List<int> savedNewsID = [];
+late String link;
 
 void read() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -25,7 +28,16 @@ void read() async {
 }
 
 class _SavedState extends State<Saved> {
+  final _formKey = GlobalKey<FormState>();
+  final myController = TextEditingController();
   final double profileHeight = 144;
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,64 +86,68 @@ class _SavedState extends State<Saved> {
                 height: 25,
               ),
               Form(
+                  key: _formKey,
                   child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text('Discord Webhooks'),
-                        prefixIcon: Icon(Icons.discord_outlined)),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue,
-                        side: BorderSide.none,
-                        shape: const StadiumBorder(),
+                    children: [
+                      const SizedBox(
+                        height: 20,
                       ),
-                      child: const Text('Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          )),
-                    ),
-                  ),
-                ],
-              ))
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the webhook';
+                          }
+                          return null;
+                        },
+                        controller: myController,
+                        decoration: const InputDecoration(
+                          label: Text('Discord Webhook'),
+                          prefixIcon: Icon(Icons.discord_outlined),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              setWebHook(myController.text);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightBlue,
+                            side: BorderSide.none,
+                            shape: const StadiumBorder(),
+                          ),
+                          child: const Text('Save',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              )),
+                        ),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget buildProfileImage() => Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0)),
-        child: Image.asset('/assets/image_failed.png'),
-        // backgroundColor: Colors.grey.shade800,
-        // backgroundImage: const NetworkImage(
-        //   'https://unsplash.com/photos/YUu9UAcOKZ4',
-        // ),
-      );
-
-  Widget buildContent() => Column(
-        // ignore: prefer_const_literals_to_create_immutables
-        children: [
-          const SizedBox(height: 8),
-          const Text(
-            'Suman Pandey',
-            style: TextStyle(
-              fontSize: 28,
-            ),
-          )
-        ],
-      );
+Future<http.Response> setWebHook(String url) {
+  return http.post(
+    Uri.parse('https://newsly.asaurav.com.np/api/user/webhook'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'user': 'aabhusan',
+      'url': url,
+    }),
+  );
 }
