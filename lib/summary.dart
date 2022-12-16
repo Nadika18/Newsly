@@ -117,7 +117,7 @@ class _SummaryState extends State<Summary> {
                             },
                             scrollDirection: Axis.horizontal,
                           ),
-                          items: newsList?.toList().map((news) {
+                          items: newsList?.toList().sublist(0, 6).map((news) {
                             return Builder(
                               builder: (BuildContext context) {
                                 return GestureDetector(

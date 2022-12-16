@@ -126,7 +126,7 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
               ListTile(
                 subtitle: Text('Author: ' +
                     widget.news.author +
-                    ' \nPublished at: ' +
+                    ' \nPublished on: ' +
                     widget.news.created),
                 trailing: Wrap(
                   spacing: 0,
@@ -152,7 +152,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               setState(() {
                                 isBusy = false;
-                                
                               });
                             } else if (!isPlaying && isFullNews) {
                               setState(() {
@@ -167,7 +166,6 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                               });
                               setState(() {
                                 isBusy = false;
-                                
                               });
                             } else {
                               await player.pause();

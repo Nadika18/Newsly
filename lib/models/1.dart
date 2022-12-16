@@ -47,7 +47,7 @@ class News {
     categories = json['category_name'];
     summaryTts = json['summary_tts'];
     fullBodyTts = json['full_body_tts'];
-    created = json['created'];
+    created = json['created_str'];
     summary = json['summary'];
     language = json['language'];
   }
