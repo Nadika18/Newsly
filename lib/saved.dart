@@ -26,6 +26,7 @@ void read() async {
 
 class _SavedState extends State<Saved> {
   final double profileHeight = 144;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,38 +75,55 @@ class _SavedState extends State<Saved> {
                 height: 25,
               ),
               Form(
+                  key: _formKey,
                   child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text('Discord Webhooks'),
-                        prefixIcon: Icon(Icons.discord_outlined)),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue,
-                        side: BorderSide.none,
-                        shape: const StadiumBorder(),
+                    children: [
+                      const SizedBox(
+                        height: 20,
                       ),
-                      child: const Text('Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          )),
-                    ),
-                  ),
-                ],
-              ))
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text('Discord Webhooks'),
+                            prefixIcon: Icon(Icons.discord_outlined)),
+                        onSaved: (newValue) => {print(newValue)},
+                        validator: (value) {
+                          RegExp regex = RegExp(
+                              r'/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/');
+                          if (!regex.hasMatch(value!)) {
+                            return 'Enter Valid Webhook Url';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightBlue,
+                            side: BorderSide.none,
+                            shape: const StadiumBorder(),
+                          ),
+                          child: const Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),
