@@ -43,10 +43,11 @@ Newsly is a news app that tailors to your preferences! You can stay up to date o
 <br>
 <br>
 
+## Code for backend:
+https://github.com/ErSauravAdhikari/Newsly
 
-
-
-
+<br>
+<br> 
 ## Installing the built file
 
 - Download the built apk on your Android phone from [here](https://github.com/Nadika18/Newsly_frontend/releases).
