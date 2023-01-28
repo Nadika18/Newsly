@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_uxcam/flutter_uxcam.dart';
 
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -63,6 +64,10 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
 
   @override
   Widget build(BuildContext context) {
+    FlutterUxcam.logEventWithProperties("OpenedDetails", {
+        "title": widget.news.title,
+    });
+    
     TabController tabController = TabController(length: 2, vsync: this);
     @override
     void StatefulPause() {
@@ -143,6 +148,9 @@ class _NewsDetailedViewState extends State<NewsDetailedView>
                             if (!isPlaying && !isFullNews) {
                               setState(() {
                                 isBusy = true;
+                              });
+                                  FlutterUxcam.logEventWithProperties("PlayingTTS", {
+                                  "title": widget.news.title,
                               });
                               await player
                                   .play(UrlSource(widget.news.summaryTts));
